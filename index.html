@@ -443,7 +443,7 @@ select option{background:var(--surface);}
       <!-- BAR CHART -->
       <div class="bar-chart-card" id="barChartCard" style="display:none;">
         <div class="bc-header">
-          <div class="bc-title">Yapılan Kuyu</div>
+          <div class="bc-title">Yapılan Kuyu <span id="bcAvg" style="font-size:.65rem;font-weight:600;color:var(--dim);margin-left:6px;"></span></div>
           <div class="bc-tabs">
             <button class="bctab active" onclick="setBarMode('daily',this)">Günlük</button>
             <button class="bctab" onclick="setBarMode('weekly',this)">Haftalık</button>
@@ -1334,6 +1334,8 @@ function renderBarChart(){
     labels = days;
     data = days.map(function(d){return dateMap[d];});
     drawNewBarChart(canvas, labels, data, 'daily');
+    var avg1 = data.length ? Math.round(data.reduce(function(s,v){return s+v;},0)/data.length) : 0;
+    document.getElementById('bcAvg').textContent = 'ort: '+avg1;
 
   } else if(barMode === 'weekly'){
     // Bu yılın haftalık toplamları
@@ -1352,6 +1354,8 @@ function renderBarChart(){
     labels = wkeys;
     data = wkeys.map(function(k){return weekMap[k];});
     drawNewBarChart(canvas, labels, data, 'weekly');
+    var avg2 = data.length ? Math.round(data.reduce(function(s,v){return s+v;},0)/data.length) : 0;
+    document.getElementById('bcAvg').textContent = 'ort: '+avg2;
 
   } else {
     // Bu yılın aylık toplamları
@@ -1366,6 +1370,8 @@ function renderBarChart(){
     labels = mkeys.map(function(k){return AYLAR2[parseInt(k.split('-')[1])-1];});
     data = mkeys.map(function(k){return monthMap[k];});
     drawNewBarChart(canvas, labels, data, 'monthly');
+    var avg3 = data.length ? Math.round(data.reduce(function(s,v){return s+v;},0)/data.length) : 0;
+    document.getElementById('bcAvg').textContent = 'ort: '+avg3;
   }
 }
 
