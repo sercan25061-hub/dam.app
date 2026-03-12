@@ -7,226 +7,253 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="DSM">
-<meta name="theme-color" content="#000000">
-<link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzAwMDAwMCIvPgogIDxyZWN0IHk9IjI1NiIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIyNTYiIHJ4PSIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeT0iMjM2IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+RFNNPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iMzMwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMTExMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXlkxLFuIEplb3Rla25pazwvdGV4dD4KICA8dGV4dCB4PSIyNTYiIHk9IjM3OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzMzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk3DvGhlbmRpc2xpayBMdGQuxZ50aS48L3RleHQ+Cjwvc3ZnPg==">
-<title>DSM - Aydın Jeoteknik</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#000000">
+  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzAwMDAwMCIvPgogIDxyZWN0IHk9IjI1NiIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIyNTYiIHJ4PSIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeT0iMjM2IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+RFNNPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iMzMwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMTExMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXlkxLFuIEplb3Rla25pazwvdGV4dD4KICA8dGV4dCB4PSIyNTYiIHk9IjM3OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzMzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk3DvGhlbmRpc2xpayBMdGQuxZ50aS48L3RleHQ+Cjwvc3ZnPg==">
+  <link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" sizes="512x512" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzAwMDAwMCIvPgogIDxyZWN0IHk9IjI1NiIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIyNTYiIHJ4PSIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeT0iMjM2IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+RFNNPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iMzMwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMTExMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXlkxLFuIEplb3Rla25pazwvdGV4dD4KICA8dGV4dCB4PSIyNTYiIHk9IjM3OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzMzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk3DvGhlbmRpc2xpayBMdGQuxZ50aS48L3RleHQ+Cjwvc3ZnPg==">
+<title>DSM</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <style>
 :root{
-  --bg:#18171A; --surface:#242128; --surface2:#2C2A30; --border:#3C3940;
-  --text:#F2F0EB; --text2:#A09C96; --dim:#6B6760;
-  --green:#00B67A; --blue:#3764E8; --orange:#E8762A; --red:#E8403A;
-  --nav-h:68px; --header-h:60px;
+  --bg:#F2F0EB;
+  --surface:#FFFFFF;
+  --surface2:#F7F5F2;
+  --surface3:#EFEDE9;
+  --border:#E4E1DB;
+  --border2:#D5D1C9;
+  --text:#18171A;
+  --text2:#6B6760;
+  --dim:#A09C96;
+
+  --green:#00B67A; --greenL:#00D98F; --greenBg:#E8FBF4; --greenBorder:rgba(0,182,122,.2);
+  --red:#E8403A;   --redL:#FF5F5A;   --redBg:#FFF0EF;   --redBorder:rgba(232,64,58,.2);
+  --blue:#3764E8;  --blueL:#5A87FF;  --blueBg:#EEF2FF;  --blueBorder:rgba(55,100,232,.2);
+  --orange:#E8762A;--orangeL:#FF9A50;--orangeBg:#FFF4EC;--orangeBorder:rgba(232,118,42,.2);
+  --purple:#7C5CFC;--purpleBg:#F2EEFF;
+
+  --sans:'Plus Jakarta Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --nav-h:68px;
+  --header-h:60px;
 }
+
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;height:100vh;overflow:hidden;}
-.app{display:flex;flex-direction:column;height:100dvh;}
-.header{height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;}
-.logo h1{font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:-1.5px;}
-.content{flex:1;overflow-y:auto;padding-bottom:calc(var(--nav-h)+20px);}
-.bottom-nav{height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);display:flex;padding:6px 8px;gap:4px;position:fixed;bottom:0;width:100%;z-index:100;}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:none;color:var(--dim);cursor:pointer;font-size:.6rem;font-weight:600;}
-.nav-item.active{color:#fff;background:var(--surface2);border-radius:12px;}
-.fab-btn{position:fixed;right:20px;bottom:calc(var(--nav-h) + 20px);width:60px;height:60px;border-radius:30px;background:var(--orange);color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 15px rgba(0,0,0,0.5);z-index:99;cursor:pointer;}
-/* Kartlar */
-.greet-card{background:linear-gradient(135deg,#18171A,#2A2830);border-radius:20px;padding:16px;margin:14px;border:1px solid var(--border);}
-.gs-row{display:flex;justify-content:space-between;margin-top:10px;}
-.gs-val{font-size:1.4rem;font-weight:800;}
-.last-proj-card{background:linear-gradient(135deg,#242128,#18171A);border-radius:20px;padding:16px;margin:14px;border:1px solid var(--blue);}
-.stitle{font-size:.85rem;font-weight:700;margin:20px 14px 10px;display:flex;align-items:center;gap:8px;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);}
+body.dark{
+  --bg:#18171A; --surface:#242128; --surface2:#2C2A30; --surface3:#333038;
+  --border:#3C3940; --border2:#4A4750; --text:#F2F0EB; --text2:#A09C96; --dim:#6B6760;
+}
+
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
+
+/* ── HEADER ── */
+.header{
+  height:var(--header-h);background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;flex-shrink:0;
+}
+.logo h1{
+  font-size:1.65rem;font-weight:800;color:#ffffff;
+  letter-spacing:-1.5px;line-height:1;
+}
+.logo h1 span{color:#ffffff;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.hbtn{
+  font-family:var(--sans);font-size:.7rem;font-weight:600;
+  background:var(--surface2);color:var(--text2);
+  border:1px solid var(--border);padding:7px 13px;
+  border-radius:10px;cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.hbtn:active{background:var(--border2);}
+.hdate{font-size:.62rem;font-weight:500;color:var(--dim);display:flex;align-items:center;gap:5px;}
+.sdot{width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 3s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ── CONTENT ── */
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h)+12px);}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  height:var(--nav-h);background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;flex-shrink:0;z-index:10;
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  gap:4px;
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;border:none;background:none;
+  color:var(--dim);cursor:pointer;font-family:var(--sans);
+  font-size:.56rem;font-weight:600;padding:6px 2px;
+  transition:all .2s;position:relative;border-radius:12px;
+}
+.nav-item .ni{font-size:1.15rem;line-height:1;transition:transform .2s;}
+.nav-item.active{color:var(--text);background:var(--surface2);}
+.nav-item.active .ni{transform:scale(1.1);}
+
+/* ── PANELS ── */
+.panel{display:none;padding:16px 14px;}
+.panel.active{display:block;animation:fadeIn .22s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── FORM ── */
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:11px;}
+.fg label{font-size:.68rem;font-weight:600;color:var(--text2);}
+.fg input,.fg select,.fg textarea{
+  background:var(--surface);border:1.5px solid var(--border);
+  color:var(--text);font-family:var(--sans);font-size:.92rem;font-weight:500;
+  padding:13px 14px;outline:none;border-radius:13px;
+  width:100%;-webkit-appearance:none;transition:all .2s;
+}
+
+/* ── BUTTONS ── */
+.btn{
+  font-family:var(--sans);font-size:.8rem;font-weight:700;
+  border:none;padding:14px 18px;border-radius:13px;
+  cursor:pointer;transition:all .15s;letter-spacing:-.1px;width:100%;
+}
+.btn-p{background:#3764E8;color:#fff;}
+.btn-s{background:var(--surface2);color:var(--text2);border:1.5px solid var(--border);}
+.brow{display:flex;gap:8px;margin-top:4px;margin-bottom:12px;}
+
+.divider{height:1px;background:var(--border);margin:18px 0;}
+.stitle{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:8px;}
 .stitle::after{content:'';flex:1;height:1px;background:var(--border);}
-.fg{margin:0 14px 12px;display:flex;flex-direction:column;gap:5px;}
-.fg label{font-size:.7rem;font-weight:600;color:var(--text2);}
-.fg input, .fg select{background:var(--surface);border:1px solid var(--border);color:#fff;padding:12px;border-radius:12px;outline:none;}
-.btn{margin:10px 14px;padding:14px;border-radius:12px;border:none;font-weight:700;cursor:pointer;background:var(--blue);color:#fff;}
-.dtable{margin:0 14px;background:var(--surface);border-radius:16px;border:1px solid var(--border);overflow:hidden;}
-.drow{display:flex;align-items:center;padding:14px;border-bottom:1px solid var(--border);gap:10px;}
-.drname{flex:1;font-weight:600;font-size:.85rem;}
-.drname span{display:block;font-size:.65rem;color:var(--text2);}
-.panel{display:none;} .panel.active{display:block;}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;padding:20px;}
-.modal-bg.open{display:flex;}
-.modal{background:var(--surface);border-radius:24px;width:100%;max-width:400px;padding:24px;}
-.hbtn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:6px 10px;border-radius:8px;font-size:.7rem;cursor:pointer;}
+
 </style>
 </head>
-<body>
+<body class="dark">
 <div class="app">
+
   <div class="header">
-    <div class="logo" onclick="logoTap()"><h1>DS<span>M</span></h1></div>
-    <div class="header-right" style="display:flex;gap:8px;">
-      <button class="hbtn admin-only" onclick="exportData()" style="display:none;">Yedek</button>
-      <button class="hbtn" id="lockBtn" onclick="openAuthModal()">🔒</button>
+    <div class="logo">
+      <h1>DS<span>M</span></h1>
+      <div style="font-size:.46rem;font-weight:600;color:var(--dim);letter-spacing:-.1px;margin-top:1px;line-height:1.2;">Aydın Jeoteknik Müh. Tic. Ltd. Şti.</div>
+    </div>
+    <div class="header-right">
+        <button class="hbtn" id="lockBtn" onclick="openAuthModal()">🔒</button>
+        <div class="hdate"><span class="sdot"></span><span id="hDate"></span></div>
     </div>
   </div>
 
   <div class="content" id="mainContent">
+
     <div class="panel active" id="tab-dashboard">
-      <div class="greet-card">
-        <div style="font-weight:800;">DSM Takip Sistemi</div>
-        <div class="gs-row">
-          <div><div style="font-size:.6rem;color:var(--text2);">TAMAMLANAN</div><div class="gs-val" style="color:var(--green);" id="d-comp">0</div></div>
-          <div><div style="font-size:.6rem;color:var(--text2);">HEDEF</div><div class="gs-val" style="color:var(--blue);" id="d-total">0</div></div>
-          <div><div style="font-size:.6rem;color:var(--text2);">KALAN</div><div class="gs-val" style="color:var(--orange);" id="d-rem">0</div></div>
-        </div>
-      </div>
-      <div id="d-last-proj"></div>
-      <div class="stitle">TÜM PROJELER</div>
-      <div id="d-proj-list"></div>
+        <div class="stitle">Projeler</div>
+        <div id="d-proj-list"></div>
     </div>
 
     <div class="panel" id="tab-projects">
-      <div class="stitle">YENİ PROJE EKLE</div>
-      <div class="fg"><label>Firma Adı</label><input type="text" id="p-company"></div>
-      <div class="fg"><label>Kuyu Sayısı</label><input type="number" id="p-wc" inputmode="numeric"></div>
-      <div class="fg"><label>Kuyu Basi Cimento (kg)</label><input type="number" id="p-cpw" inputmode="numeric"></div>
-      <div class="fg"><label>Tarih</label><input type="date" id="p-date"></div>
-      <button class="btn" onclick="addProject()">+ Projeyi Kaydet</button>
-      <div class="stitle">MEVCUT PROJELER</div>
+      <div class="admin-only" id="p-add-form" style="display:block;">
+        <div class="stitle" id="p-form-title">Yeni Proje</div>
+        <div class="fg"><label>Firma Adı</label><input type="text" id="p-company" placeholder="Firma adını girin"></div>
+        <div class="frow" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="fg"><label>Proje Tarihi</label><input type="date" id="p-date"></div>
+          <div class="fg"><label>Kuyu Sayısı</label><input type="number" id="p-wc" placeholder="Adet" inputmode="numeric"></div>
+        </div>
+        <div class="fg"><label>Kuyu Başına Çimento (kg)</label><input type="number" id="p-cpw" placeholder="kg" inputmode="numeric"></div>
+        
+        <div class="brow">
+          <button class="btn btn-p" id="p-save-btn" onclick="addProject(event)">+ Proje Ekle</button>
+          <button class="btn btn-s" onclick="clearProjectForm()">Temizle</button>
+        </div>
+        <div class="divider"></div>
+      </div>
       <div id="project-list-panel"></div>
     </div>
 
-    <div class="panel" id="tab-daily">
-      <div class="stitle">VERİ GİRİŞİ</div>
-      <div class="fg"><label>Proje Seç</label><select id="d-project"></select></div>
-      <div class="fg"><label>Tamamlanan Kuyu</label><input type="number" id="d-wells" inputmode="numeric"></div>
-      <div class="fg"><label>Tarih</label><input type="date" id="d-wells-date"></div>
-      <button class="btn" onclick="addDailyRecord()">Kaydı Tamamla</button>
-    </div>
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('dashboard',this)">📊<span>Özet</span></button>
-    <button class="nav-item admin-only" onclick="switchTab('projects',this)" style="display:none;">📁<span>Projeler</span></button>
-    <button class="nav-item admin-only" onclick="switchTab('daily',this)" style="display:none;">✏️<span>Giriş</span></button>
-  </div>
-</div>
-
-<button class="fab-btn admin-only" onclick="openQuickEntry()" style="display:none;">⚡</button>
-
-<div class="modal-bg" id="authModal" onclick="if(event.target===this)closeAuthModal()">
-  <div class="modal">
-    <div style="text-align:center;font-weight:800;margin-bottom:15px;">YÖNETİCİ GİRİŞİ</div>
-    <input type="password" id="authInput" placeholder="Şifre" style="width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:#fff;text-align:center;">
-    <button class="btn" style="width:100%;margin:15px 0 0;" onclick="checkAuth()">Giriş</button>
+    <button class="nav-item active" onclick="switchTab('dashboard',this)"><span class="ni">📊</span><span>Dashboard</span></button>
+    <button class="nav-item" onclick="switchTab('projects',this)"><span class="ni">📁</span><span>Projeler</span></button>
   </div>
 </div>
 
 <script>
-// VERI YONETIMI (LocalStorage + Firebase Yedek)
+// --- DATA ---
 var projects = JSON.parse(localStorage.getItem('dsm_projects') || '[]');
 var dailyRecords = JSON.parse(localStorage.getItem('dsm_records') || '[]');
-var isAdmin = localStorage.getItem('dsm_admin') === '1';
 
-// SAYFA YUKLENDIGINDE
-document.addEventListener('DOMContentLoaded', function() {
-  refreshAll();
-  applyAdminUI();
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('hDate').textContent = new Date().toLocaleDateString('tr-TR');
+  renderProjectList();
 });
 
-function refreshAll() {
+function save(){
   localStorage.setItem('dsm_projects', JSON.stringify(projects));
   localStorage.setItem('dsm_records', JSON.stringify(dailyRecords));
-  renderDashboard();
+  // Firebase entegrasyonu varsa buraya eklenebilir
+}
+
+// --- PROJE EKLEME (Düzeltilen Fonksiyon) ---
+function addProject(event){
+  if(event) event.preventDefault(); // Sayfa yenilenmesini engeller
+
+  var company = document.getElementById('p-company').value.trim();
+  var date = document.getElementById('p-date').value;
+  var cpw = parseFloat(document.getElementById('p-cpw').value);
+  var wc = parseFloat(document.getElementById('p-wc').value);
+
+  if(!company || !date || isNaN(cpw) || isNaN(wc)){
+    alert('Lütfen tüm alanları doğru şekilde doldurun!');
+    return;
+  }
+
+  var newProject = {
+    id: Date.now(),
+    company: company,
+    date: date,
+    cementPerWell: cpw,
+    wellCount: wc,
+    totalCement: cpw * wc,
+    createdAt: new Date().toISOString()
+  };
+
+  projects.push(newProject);
+  save();
   renderProjectList();
-  populateDropdown();
+  clearProjectForm();
+  alert('Proje başarıyla eklendi!');
 }
 
-function switchTab(t, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('tab-' + t).classList.add('active');
-  el.classList.add('active');
+function clearProjectForm(){
+  document.getElementById('p-company').value = '';
+  document.getElementById('p-date').value = '';
+  document.getElementById('p-cpw').value = '';
+  document.getElementById('p-wc').value = '';
 }
 
-// PROJE EKLEME
-function addProject() {
-  const comp = document.getElementById('p-company').value;
-  const wc = parseInt(document.getElementById('p-wc').value);
-  const cpw = parseInt(document.getElementById('p-cpw').value);
-  const dt = document.getElementById('p-date').value;
-
-  if(!comp || !wc) { alert("Lütfen gerekli alanları doldurun!"); return; }
-
-  const newProj = { id: Date.now(), company: comp, wellCount: wc, cement: cpw, date: dt };
-  projects.push(newProj);
+function renderProjectList(){
+  var el = document.getElementById('project-list-panel');
+  if(!el) return;
   
-  refreshAll();
-  alert("Proje Başarıyla Kaydedildi.");
-  // Formu temizle
-  document.getElementById('p-company').value = "";
-  document.getElementById('p-wc').value = "";
-}
+  if(projects.length === 0){
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim);">Henüz proje bulunmuyor.</div>';
+    return;
+  }
 
-// GUNLUK KAYIT EKLEME
-function addDailyRecord() {
-  const pid = parseInt(document.getElementById('d-project').value);
-  const w = parseInt(document.getElementById('d-wells').value);
-  const d = document.getElementById('d-wells-date').value;
-
-  if(!pid || !w) return;
-
-  dailyRecords.push({ id: Date.now(), projectId: pid, wells: w, wellsDate: d });
-  refreshAll();
-  alert("Kuyu Kaydı Alındı.");
-  document.getElementById('d-wells').value = "";
-}
-
-function renderDashboard() {
-  let total = projects.reduce((s,p) => s + p.wellCount, 0);
-  let done = dailyRecords.reduce((s,r) => s + r.wells, 0);
-  
-  document.getElementById('d-total').textContent = total;
-  document.getElementById('d-comp').textContent = done;
-  document.getElementById('d-rem').textContent = total - done;
-
-  const list = document.getElementById('d-proj-list');
-  list.innerHTML = projects.map(p => {
-    let pDone = dailyRecords.filter(r => r.projectId === p.id).reduce((s,r) => s + r.wells, 0);
-    return `<div class="drow"><div class="drname">${p.company}<span>Hedef: ${p.wellCount} | Biten: ${pDone}</span></div><div style="font-weight:800; color:var(--blue)">%${Math.round((pDone/p.wellCount)*100) || 0}</div></div>`;
+  el.innerHTML = projects.map(function(p){
+    return '<div style="background:var(--surface);padding:15px;border-radius:15px;margin-bottom:10px;border:1px solid var(--border);">' +
+      '<div style="font-weight:800;">' + p.company + '</div>' +
+      '<div style="font-size:0.7rem;color:var(--text2);">Tarih: ' + p.date + ' | Kuyu: ' + p.wellCount + '</div>' +
+      '</div>';
   }).join('');
 }
 
-function populateDropdown() {
-  const sel = document.getElementById('d-project');
-  if(!sel) return;
-  sel.innerHTML = projects.map(p => `<option value="${p.id}">${p.company}</option>`).join('');
+function switchTab(name, el){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el) el.classList.add('active');
 }
 
-function renderProjectList() {
-  const pnl = document.getElementById('project-list-panel');
-  if(!pnl) return;
-  pnl.innerHTML = projects.map(p => `<div class="drow"><div class="drname">${p.company}</div><button onclick="deleteProj(${p.id})" style="background:none; border:none; color:var(--red); font-size:12px;">SİL</button></div>`).join('');
-}
-
-function deleteProj(id) {
-  if(confirm("Bu projeyi ve tüm kayıtlarını silmek istediğinize emin misiniz?")) {
-    projects = projects.filter(p => p.id !== id);
-    dailyRecords = dailyRecords.filter(r => r.projectId !== id);
-    refreshAll();
-  }
-}
-
-// ADMIN GIRISI
-function openAuthModal() { document.getElementById('authModal').classList.add('open'); }
-function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
-function checkAuth() {
-  if(document.getElementById('authInput').value === "1234") {
-    isAdmin = true;
-    localStorage.setItem('dsm_admin', '1');
-    applyAdminUI();
-    closeAuthModal();
-  } else { alert("Hatalı Şifre!"); }
-}
-function applyAdminUI() {
-  document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'flex' : 'none');
-  document.getElementById('lockBtn').textContent = isAdmin ? '🔓' : '🔒';
-}
-function logoTap() {
-  window.tapCount = (window.tapCount || 0) + 1;
-  if(window.tapCount > 4) { isAdmin = false; localStorage.removeItem('dsm_admin'); location.reload(); }
-  setTimeout(() => window.tapCount = 0, 2000);
-}
+function openAuthModal(){ alert('Yönetici girişi simülasyonu.'); }
 </script>
 </body>
 </html>
