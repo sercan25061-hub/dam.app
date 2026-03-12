@@ -1,259 +1,50 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="DSM">
-  <meta name="theme-color" content="#000000">
-  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzAwMDAwMCIvPgogIDxyZWN0IHk9IjI1NiIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIyNTYiIHJ4PSIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeT0iMjM2IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+RFNNPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iMzMwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMTExMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXlkxLFuIEplb3Rla25pazwvdGV4dD4KICA8dGV4dCB4PSIyNTYiIHk9IjM3OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzMzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk3DvGhlbmRpc2xpayBMdGQuxZ50aS48L3RleHQ+Cjwvc3ZnPg==">
-  <link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" sizes="512x512" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIHJ4PSI4MCIgZmlsbD0iIzAwMDAwMCIvPgogIDxyZWN0IHk9IjI1NiIgd2lkdGg9IjUxMiIgaGVpZ2h0PSIyNTYiIHJ4PSIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeT0iMjM2IiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjIwIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iMjU2IiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayxBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4MCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+RFNNPC90ZXh0PgogIDx0ZXh0IHg9IjI1NiIgeT0iMzMwIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzExMTExMSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSI+QXlkxLFuIEplb3Rla25pazwvdGV4dD4KICA8dGV4dCB4PSIyNTYiIHk9IjM3OCIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzQiIGZvbnQtd2VpZ2h0PSI0MDAiIGZpbGw9IiMzMzMzMzMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPk3DvGhlbmRpc2xpayBMdGQuxZ50aS48L3RleHQ+Cjwvc3ZnPg==">
-<title>DSM</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-<style>
-:root{
-  --bg:#F2F0EB;
-  --surface:#FFFFFF;
-  --surface2:#F7F5F2;
-  --surface3:#EFEDE9;
-  --border:#E4E1DB;
-  --border2:#D5D1C9;
-  --text:#18171A;
-  --text2:#6B6760;
-  --dim:#A09C96;
-
-  --green:#00B67A; --greenL:#00D98F; --greenBg:#E8FBF4; --greenBorder:rgba(0,182,122,.2);
-  --red:#E8403A;   --redL:#FF5F5A;   --redBg:#FFF0EF;   --redBorder:rgba(232,64,58,.2);
-  --blue:#3764E8;  --blueL:#5A87FF;  --blueBg:#EEF2FF;  --blueBorder:rgba(55,100,232,.2);
-  --orange:#E8762A;--orangeL:#FF9A50;--orangeBg:#FFF4EC;--orangeBorder:rgba(232,118,42,.2);
-  --purple:#7C5CFC;--purpleBg:#F2EEFF;
-
-  --sans:'Plus Jakarta Sans',sans-serif;
-  --mono:'DM Mono',monospace;
-  --nav-h:68px;
-  --header-h:60px;
-}
-
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;overflow:hidden;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);}
-body.dark{
-  --bg:#18171A; --surface:#242128; --surface2:#2C2A30; --surface3:#333038;
-  --border:#3C3940; --border2:#4A4750; --text:#F2F0EB; --text2:#A09C96; --dim:#6B6760;
-}
-
-/* ── LAYOUT ── */
-.app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
-
-/* ── HEADER ── */
-.header{
-  height:var(--header-h);background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 18px;flex-shrink:0;
-}
-.logo h1{
-  font-size:1.65rem;font-weight:800;color:#ffffff;
-  letter-spacing:-1.5px;line-height:1;
-}
-.logo h1 span{color:#ffffff;}
-.header-right{display:flex;align-items:center;gap:8px;}
-.hbtn{
-  font-family:var(--sans);font-size:.7rem;font-weight:600;
-  background:var(--surface2);color:var(--text2);
-  border:1px solid var(--border);padding:7px 13px;
-  border-radius:10px;cursor:pointer;transition:all .15s;white-space:nowrap;
-}
-.hbtn:active{background:var(--border2);}
-.hdate{font-size:.62rem;font-weight:500;color:var(--dim);display:flex;align-items:center;gap:5px;}
-.sdot{width:7px;height:7px;background:var(--green);border-radius:50%;display:inline-block;animation:pulse 3s infinite;flex-shrink:0;}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-
-/* ── CONTENT ── */
-.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h)+12px);}
-
-/* ── BOTTOM NAV ── */
-.bottom-nav{
-  height:var(--nav-h);background:var(--surface);
-  border-top:1px solid var(--border);
-  display:flex;flex-shrink:0;z-index:10;
-  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
-  gap:4px;
-}
-.nav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:3px;border:none;background:none;
-  color:var(--dim);cursor:pointer;font-family:var(--sans);
-  font-size:.56rem;font-weight:600;padding:6px 2px;
-  transition:all .2s;position:relative;border-radius:12px;
-}
-.nav-item .ni{font-size:1.15rem;line-height:1;transition:transform .2s;}
-.nav-item.active{color:var(--text);background:var(--surface2);}
-.nav-item.active .ni{transform:scale(1.1);}
-
-/* ── PANELS ── */
-.panel{display:none;padding:16px 14px;}
-.panel.active{display:block;animation:fadeIn .22s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-
-/* ── FORM ── */
-.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:11px;}
-.fg label{font-size:.68rem;font-weight:600;color:var(--text2);}
-.fg input,.fg select,.fg textarea{
-  background:var(--surface);border:1.5px solid var(--border);
-  color:var(--text);font-family:var(--sans);font-size:.92rem;font-weight:500;
-  padding:13px 14px;outline:none;border-radius:13px;
-  width:100%;-webkit-appearance:none;transition:all .2s;
-}
-
-/* ── BUTTONS ── */
-.btn{
-  font-family:var(--sans);font-size:.8rem;font-weight:700;
-  border:none;padding:14px 18px;border-radius:13px;
-  cursor:pointer;transition:all .15s;letter-spacing:-.1px;width:100%;
-}
-.btn-p{background:#3764E8;color:#fff;}
-.btn-s{background:var(--surface2);color:var(--text2);border:1.5px solid var(--border);}
-.brow{display:flex;gap:8px;margin-top:4px;margin-bottom:12px;}
-
-.divider{height:1px;background:var(--border);margin:18px 0;}
-.stitle{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:8px;}
-.stitle::after{content:'';flex:1;height:1px;background:var(--border);}
-
-</style>
-</head>
-<body class="dark">
-<div class="app">
-
-  <div class="header">
-    <div class="logo">
-      <h1>DS<span>M</span></h1>
-      <div style="font-size:.46rem;font-weight:600;color:var(--dim);letter-spacing:-.1px;margin-top:1px;line-height:1.2;">Aydın Jeoteknik Müh. Tic. Ltd. Şti.</div>
-    </div>
-    <div class="header-right">
-        <button class="hbtn" id="lockBtn" onclick="openAuthModal()">🔒</button>
-        <div class="hdate"><span class="sdot"></span><span id="hDate"></span></div>
-    </div>
-  </div>
-
-  <div class="content" id="mainContent">
-
-    <div class="panel active" id="tab-dashboard">
-        <div class="stitle">Projeler</div>
-        <div id="d-proj-list"></div>
-    </div>
-
-    <div class="panel" id="tab-projects">
-      <div class="admin-only" id="p-add-form" style="display:block;">
-        <div class="stitle" id="p-form-title">Yeni Proje</div>
-        <div class="fg"><label>Firma Adı</label><input type="text" id="p-company" placeholder="Firma adını girin"></div>
-        <div class="frow" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div class="fg"><label>Proje Tarihi</label><input type="date" id="p-date"></div>
-          <div class="fg"><label>Kuyu Sayısı</label><input type="number" id="p-wc" placeholder="Adet" inputmode="numeric"></div>
-        </div>
-        <div class="fg"><label>Kuyu Başına Çimento (kg)</label><input type="number" id="p-cpw" placeholder="kg" inputmode="numeric"></div>
-        
-        <div class="brow">
-          <button class="btn btn-p" id="p-save-btn" onclick="addProject(event)">+ Proje Ekle</button>
-          <button class="btn btn-s" onclick="clearProjectForm()">Temizle</button>
-        </div>
-        <div class="divider"></div>
-      </div>
-      <div id="project-list-panel"></div>
-    </div>
-
-  </div>
-
-  <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('dashboard',this)"><span class="ni">📊</span><span>Dashboard</span></button>
-    <button class="nav-item" onclick="switchTab('projects',this)"><span class="ni">📁</span><span>Projeler</span></button>
-  </div>
-</div>
-
-<script>
-// --- DATA ---
-var projects = JSON.parse(localStorage.getItem('dsm_projects') || '[]');
-var dailyRecords = JSON.parse(localStorage.getItem('dsm_records') || '[]');
-
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('hDate').textContent = new Date().toLocaleDateString('tr-TR');
-  renderProjectList();
-});
-
-function save(){
-  localStorage.setItem('dsm_projects', JSON.stringify(projects));
-  localStorage.setItem('dsm_records', JSON.stringify(dailyRecords));
-  // Firebase entegrasyonu varsa buraya eklenebilir
-}
-
-// --- PROJE EKLEME (Düzeltilen Fonksiyon) ---
-function addProject(event){
-  if(event) event.preventDefault(); // Sayfa yenilenmesini engeller
-
+function addProject(){
   var company = document.getElementById('p-company').value.trim();
-  var date = document.getElementById('p-date').value;
-  var cpw = parseFloat(document.getElementById('p-cpw').value);
-  var wc = parseFloat(document.getElementById('p-wc').value);
+  var date    = document.getElementById('p-date').value;
+  var cpw     = parseFloat(document.getElementById('p-cpw').value);
+  var wc      = parseFloat(document.getElementById('p-wc').value);
+  var sc      = document.getElementById('p-sc').value.trim();
+  var dia     = document.getElementById('p-dia').value.trim();
+  var depth   = document.getElementById('p-depth').value.trim();
 
-  if(!company || !date || isNaN(cpw) || isNaN(wc)){
-    alert('Lütfen tüm alanları doğru şekilde doldurun!');
+  // 🔴 DOĞRU VALIDASYON
+  if(company === '' || date === '' || isNaN(cpw) || isNaN(wc)){
+    notify('Tüm zorunlu alanları doldurun!','var(--red)');
     return;
   }
 
-  var newProject = {
-    id: Date.now(),
-    company: company,
-    date: date,
-    cementPerWell: cpw,
-    wellCount: wc,
-    totalCement: cpw * wc,
-    createdAt: new Date().toISOString()
-  };
-
-  projects.push(newProject);
-  save();
-  renderProjectList();
-  clearProjectForm();
-  alert('Proje başarıyla eklendi!');
-}
-
-function clearProjectForm(){
-  document.getElementById('p-company').value = '';
-  document.getElementById('p-date').value = '';
-  document.getElementById('p-cpw').value = '';
-  document.getElementById('p-wc').value = '';
-}
-
-function renderProjectList(){
-  var el = document.getElementById('project-list-panel');
-  if(!el) return;
-  
-  if(projects.length === 0){
-    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim);">Henüz proje bulunmuyor.</div>';
-    return;
+  if(editingProjectId){
+    var idx = projects.findIndex(p => p.id === editingProjectId);
+    if(idx !== -1){
+      projects[idx].company = company;
+      projects[idx].date = date;
+      projects[idx].cementPerWell = cpw;
+      projects[idx].wellCount = wc;
+      projects[idx].totalCement = cpw * wc;
+      projects[idx].scRatio = sc;
+      projects[idx].diameter = dia;
+      projects[idx].depth = depth;
+    }
+    editingProjectId = null;
+    document.getElementById('p-form-title').textContent='Yeni Proje';
+    document.getElementById('p-save-btn').textContent='+ Proje Ekle';
+    document.getElementById('p-save-btn').style.background='';
+    save(); refreshAll(); clearProjectForm();
+    notify('Proje güncellendi!','var(--greenL)');
+  } else {
+    projects.push({
+      id: Date.now(),
+      company,
+      date,
+      cementPerWell: cpw,
+      wellCount: wc,
+      totalCement: cpw * wc,
+      scRatio: sc,
+      diameter: dia,
+      depth: depth,
+      createdAt: new Date().toISOString()
+    });
+    save(); refreshAll(); clearProjectForm();
+    notify('Proje eklendi!','var(--greenL)');
   }
-
-  el.innerHTML = projects.map(function(p){
-    return '<div style="background:var(--surface);padding:15px;border-radius:15px;margin-bottom:10px;border:1px solid var(--border);">' +
-      '<div style="font-weight:800;">' + p.company + '</div>' +
-      '<div style="font-size:0.7rem;color:var(--text2);">Tarih: ' + p.date + ' | Kuyu: ' + p.wellCount + '</div>' +
-      '</div>';
-  }).join('');
 }
-
-function switchTab(name, el){
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
-  document.querySelectorAll('.nav-item').forEach(function(b){b.classList.remove('active');});
-  document.getElementById('tab-'+name).classList.add('active');
-  if(el) el.classList.add('active');
-}
-
-function openAuthModal(){ alert('Yönetici girişi simülasyonu.'); }
-</script>
-</body>
-</html>
