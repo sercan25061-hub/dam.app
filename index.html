@@ -1093,13 +1093,12 @@ function addProject(){
     document.getElementById('p-form-title').textContent='Yeni Proje';
     document.getElementById('p-save-btn').textContent='+ Proje Ekle';
     document.getElementById('p-save-btn').style.background='';
-    save();refreshAll();clearProjectForm();
-    notify('Proje güncellendi!','var(--greenL)');
-  } else {
-    projects.push({id:Date.now(),company,date,cementPerWell:cpw,wellCount:wc,totalCement:cpw*wc,scRatio:sc,diameter:dia,depth:depth,createdAt:new Date().toISOString()});
-    save();refreshAll();clearProjectForm();
-    notify('Proje eklendi!','var(--greenL)');
-  }
+function save(){
+  localStorage.setItem('dsm_projects', JSON.stringify(projects));
+  localStorage.setItem('dsm_records', JSON.stringify(dailyRecords));
+  localStorage.setItem('dsm_degisim', JSON.stringify(degisimRecords));
+  localStorage.setItem('dsm_maint', JSON.stringify(maintSettings));
+  fbSave(); // firebase varsa sync
 }
 function editProject(id){
   var p=projects.find(function(pr){return pr.id===id;});if(!p)return;
