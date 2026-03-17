@@ -30,21 +30,23 @@
         header {
             width: 100%;
             background-color: var(--bauer-blue);
-            padding: 20px 0;
+            padding: 30px 0; /* Logo sığması için dikey padding artırıldı */
             text-align: center;
             border-bottom: 4px solid var(--bauer-yellow);
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .logo-container {
-            margin-bottom: 10px;
-        }
-
-        /* SVG ile Yenilenmiş Aydın Mühendislik Logosu (Bauer Stilinde) */
+        /* Yenilenmiş Tam Aydın Mühendislik Logosu (SVG) */
+        /* Orijinal görseldeki tüm detayları içerir */
         .aj-logo {
-            width: 120px;
-            height: 120px;
+            width: 180px; /* Detaylar için genişletildi */
+            height: auto;
             fill: var(--bauer-yellow);
+            display: block;
+            margin: 0 auto 15px auto;
         }
 
         h1 {
@@ -115,14 +117,23 @@
 <body>
 
 <header>
-    <div class="logo-container">
-        <svg class="aj-logo" viewBox="0 0 100 100">
-            <circle cx="50" cy="40" r="35" fill="none" stroke="currentColor" stroke-width="4"/>
-            <text x="50" y="52" font-family="Arial" font-size="32" font-weight="bold" text-anchor="middle">AJ</text>
-            <path d="M20 80 L35 80 L40 60 L60 60 L65 80 L80 80" stroke="currentColor" stroke-width="5" fill="none"/>
-            <rect x="40" y="75" width="20" height="15" fill="currentColor"/>
-        </svg>
-    </div>
+    <svg class="aj-logo" viewBox="0 0 400 300">
+        <g stroke="currentColor" stroke-width="6" fill="none">
+            <path d="M100 50 L100 250"/> <path d="M90 60 L100 50 L110 60"/> <path d="M100 210 L80 230 L120 230 Z"/> <path d="M100 230 L100 270"/> <path d="M90 270 L110 270"/> </g>
+        
+        <circle cx="210" cy="110" r="80" fill="none" stroke="currentColor" stroke-width="8"/>
+        <text x="210" y="140" font-family="Verdana, Geneva, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" letter-spacing="-5">AJ</text>
+        
+        <g stroke="currentColor" stroke-width="6" fill="none">
+            <path d="M220 180 L280 180 L280 230 L220 230 Z"/>
+            <path d="M225 185 L260 185 L260 210 L225 210 Z"/> <path d="M200 230 L300 230 L320 250 L200 250 Z"/>
+            <path d="M200 250 L180 270 L340 270 L320 250 Z" fill="currentColor"/>
+            
+            <path d="M100 130 L160 210" stroke-width="4"/>
+            <path d="M100 170 L160 220" stroke-width="4"/>
+        </g>
+    </svg>
+    
     <h1>AYDIN JEOTEKNİK</h1>
     <div class="company-subtext">MÜHENDİSLİK TİC. LTD. ŞTİ.</div>
 </header>
@@ -152,7 +163,7 @@
 </div>
 
 <script>
-    // PWA Service Worker Kaydı
+    // PWA Service Worker Kaydı (Manifest dosyasının çalışması için gereklidir)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').then(reg => {
