@@ -33,7 +33,7 @@
   --green:#30D158; --greenL:#34C759; --greenBg:rgba(48,209,88,.1); --greenBorder:rgba(48,209,88,.25);
   --red:#FF2D55;   --redL:#FF375F;   --redBg:rgba(255,45,85,.1);   --redBorder:rgba(255,45,85,.25);
   --blue:#0A84FF;  --blueL:#409CFF;  --blueBg:rgba(10,132,255,.12);  --blueBorder:rgba(10,132,255,.3);
-  --orange:#FF9F0A;--orangeL:#FFB340;--orangeBg:rgba(255,159,10,.1);--orangeBorder:rgba(255,159,10,.25);
+  --orange:#FF9F0A;--orangeL:#4046ff;--orangeBg:rgba(255,159,10,.1);--orangeBorder:rgba(255,159,10,.25);
   --purple:#BF5AF2;--purpleBg:rgba(191,90,242,.12);
   --pink:#FF2D55;--pinkBg:rgba(255,45,85,.12);
   --goldDim:#8E8E93;
@@ -87,7 +87,7 @@ body.dark{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
 /* ── CONTENT ── */
-.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h)+12px);}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--nav-h)+90px);}
 
 /* ── BOTTOM NAV ── */
 .bottom-nav{
@@ -470,7 +470,7 @@ select option{background:var(--surface);}
     <div class="header-right">
       <button class="hbtn admin-only" onclick="exportData()">↓ Yedek</button>
       <label class="hbtn admin-only">↑ Yükle<input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label>
-      <button class="hbtn" id="lockBtn" onclick="openAuthModal()" style="font-size:.82rem;padding:7px 10px;display:flex;align-items:center;" title="Giriş yap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></button>
+      <button class="hbtn" id="lockBtn" onclick="openAuthModal()" style="font-size:1rem;width:34px;height:34px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid rgba(255,255,255,0.05);box-shadow:0 2px 5px rgba(0,0,0,0.2);color:var(--text2);" title="Giriş yap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></button>
       <div id="sync-status" style="display:none;"></div><div class="hdate"><span class="sdot"></span><span id="hDate"></span></div>
     </div>
   </div>
@@ -862,7 +862,7 @@ window.addEventListener('load', function(){
 });
 
 // ─── ADMIN AUTH ──────────────────────────────────────────────────
-var ADMIN_PASS = '8096';
+var ADMIN_PASS = '1234';
 var isAdmin = localStorage.getItem('dsm_admin') === '1';
 var logoTapCount = 0, logoTapTimer = null;
 
@@ -1978,7 +1978,7 @@ function pdfFooter(doc){
 function pdfSectionTitle(doc, text, y){
   doc.setFillColor(235,235,235);
   doc.rect(12,y-5,186,8,'F');
-  doc.setFontSize(9);doc.setTextColor(55,100,232);doc.setFont(undefined,'bold');
+  doc.setFontSize(9);doc.setTextColor(60,60,60);doc.setFont(undefined,'bold');
   doc.text(text,14,y);
   doc.setFont(undefined,'normal');
   return y+7;
@@ -2014,16 +2014,16 @@ function exportProjectPDF(id){
   var colW=93;
   info.forEach(function(r,i){
     var rowY=y+(i*7);
-    if(i%2===0) doc.setFillColor(245,247,255); else doc.setFillColor(255,255,255);
+    if(i%2===0) doc.setFillColor(245,245,245); else doc.setFillColor(255,255,255);
     doc.rect(12,rowY-5,186,7,'F');
     // Sol kolon - etiket
-    doc.setFontSize(8.5);doc.setTextColor(80,90,120);doc.setFont(undefined,'bold');
+    doc.setFontSize(8.5);doc.setTextColor(100,100,100);doc.setFont(undefined,'bold');
     doc.text(r[0],16,rowY);
     // Ayırıcı çizgi
-    doc.setDrawColor(210,215,240);doc.setLineWidth(0.2);
+    doc.setDrawColor(210,210,210);doc.setLineWidth(0.2);
     doc.line(105,rowY-5,105,rowY+2);
     // Sağ kolon - değer
-    doc.setTextColor(20,20,20);doc.setFont(undefined,'normal');
+    doc.setTextColor(40,40,40);doc.setFont(undefined,'normal');
     doc.text(String(r[1]),110,rowY);
   });
   y+=info.length*7+8;
@@ -2037,7 +2037,7 @@ function exportProjectPDF(id){
   var siloRecs=recs.filter(function(r){return r.siloCement&&r.siloDate;});
 
   function drawTableHeader(doc,y,cols){
-    doc.setFillColor(55,100,232);
+    doc.setFillColor(80,80,80);
     doc.rect(12,y-4,186,7,'F');
     doc.setFontSize(8);doc.setTextColor(255,255,255);doc.setFont(undefined,'bold');
     cols.forEach(function(c){doc.text(c.t,c.x,y);});
@@ -2052,20 +2052,20 @@ function exportProjectPDF(id){
       if(y>272){doc.addPage();y=pdfHeader(doc,'Proje Raporu (devam)',tr(p.company));
         y=drawTableHeader(doc,y,[{t:'No',x:16},{t:'Tarih',x:32},{t:'Kuyu Adedi',x:90}]);
       }
-      if(i%2===0)doc.setFillColor(232,248,240);else doc.setFillColor(255,255,255);
+      if(i%2===0)doc.setFillColor(245,245,245);else doc.setFillColor(255,255,255);
       doc.rect(12,y-4,186,7,'F');
       doc.setFontSize(8);doc.setFont(undefined,'normal');
       doc.setTextColor(100,100,100);doc.text(String(i+1),16,y);
       doc.setTextColor(40,40,40);doc.text(fmtDate(r.wellsDate),32,y);
-      doc.setTextColor(0,130,80);doc.setFont(undefined,'bold');
+      doc.setTextColor(60,60,60);doc.setFont(undefined,'bold');
       doc.text(String(r.wells)+' adet',90,y);
       y+=7;
     });
     // Toplam satırı
     var totalWells=wellRecs.reduce(function(s,r){return s+(r.wells||0);},0);
-    doc.setFillColor(210,240,225);
+    doc.setFillColor(230,230,230);
     doc.rect(12,y-4,186,7,'F');
-    doc.setFontSize(8);doc.setTextColor(0,100,60);doc.setFont(undefined,'bold');
+    doc.setFontSize(8);doc.setTextColor(40,40,40);doc.setFont(undefined,'bold');
     doc.text('TOPLAM',16,y);
     doc.text(String(totalWells)+' adet',90,y);
     y+=12;
@@ -2079,20 +2079,20 @@ function exportProjectPDF(id){
       if(y>272){doc.addPage();y=pdfHeader(doc,'Proje Raporu (devam)',tr(p.company));
         y=drawTableHeader(doc,y,[{t:'No',x:16},{t:'Tarih',x:32},{t:'Miktar (kg)',x:90}]);
       }
-      if(i%2===0)doc.setFillColor(255,248,235);else doc.setFillColor(255,255,255);
+      if(i%2===0)doc.setFillColor(245,245,245);else doc.setFillColor(255,255,255);
       doc.rect(12,y-4,186,7,'F');
       doc.setFontSize(8);doc.setFont(undefined,'normal');
       doc.setTextColor(100,100,100);doc.text(String(i+1),16,y);
       doc.setTextColor(40,40,40);doc.text(fmtDate(r.siloDate),32,y);
-      doc.setTextColor(180,100,0);doc.setFont(undefined,'bold');
+      doc.setTextColor(60,60,60);doc.setFont(undefined,'bold');
       doc.text(r.siloCement.toLocaleString('tr-TR')+' kg',90,y);
       y+=7;
     });
     // Toplam satırı
     var totalSilo=siloRecs.reduce(function(s,r){return s+(r.siloCement||0);},0);
-    doc.setFillColor(255,236,200);
+    doc.setFillColor(230,230,230);
     doc.rect(12,y-4,186,7,'F');
-    doc.setFontSize(8);doc.setTextColor(160,80,0);doc.setFont(undefined,'bold');
+    doc.setFontSize(8);doc.setTextColor(40,40,40);doc.setFont(undefined,'bold');
     doc.text('TOPLAM',16,y);
     doc.text(totalSilo.toLocaleString('tr-TR')+' kg',90,y);
     y+=12;
@@ -2110,9 +2110,9 @@ function exportAllPDF(){
   var totalC=projects.reduce(function(s,p){return s+getCompletedWells(p.id);},0);
   var totalCem=projects.reduce(function(s,p){return s+p.totalCement;},0);
   var boxes2=[
-    {label:'Toplam Proje',val:String(projects.length),color:[240,244,255],tc:[55,100,232]},
-    {label:'Tamamlanan Kuyu',val:totalC+' adet',color:[232,248,240],tc:[0,150,80]},
-    {label:'Toplam Cimento',val:(totalCem/1000).toFixed(1)+' ton',color:[255,248,235],tc:[200,120,0]}
+    {label:'Toplam Proje',val:String(projects.length),color:[245,245,245],tc:[80,80,80]},
+    {label:'Tamamlanan Kuyu',val:totalC+' adet',color:[245,245,245],tc:[80,80,80]},
+    {label:'Toplam Cimento',val:(totalCem/1000).toFixed(1)+' ton',color:[245,245,245],tc:[80,80,80]}
   ];
   var bx=14,bw2=59,bh=18,bg=5;
   boxes2.forEach(function(b,i){
@@ -2126,7 +2126,7 @@ function exportAllPDF(){
   y+=26;
   y=pdfSectionTitle(doc,'PROJE LISTESI',y);
   // Tablo başlığı
-  doc.setFillColor(55,100,232);
+  doc.setFillColor(80,80,80);
   doc.rect(12,y-4,186,7,'F');
   doc.setFontSize(8);doc.setTextColor(255,255,255);doc.setFont(undefined,'bold');
   doc.text('No',16,y);doc.text('Firma Adi',26,y);doc.text('Tarih',110,y);
@@ -2134,19 +2134,19 @@ function exportAllPDF(){
   y+=7;
   projects.forEach(function(p,i){
     if(y>272){doc.addPage();y=pdfHeader(doc,'Tum Projeler (devam)',null);
-      doc.setFillColor(55,100,232);doc.rect(12,y-4,186,7,'F');
+      doc.setFillColor(80,80,80);doc.rect(12,y-4,186,7,'F');
       doc.setFontSize(8);doc.setTextColor(255,255,255);doc.setFont(undefined,'bold');
       doc.text('No',16,y);doc.text('Firma Adi',26,y);doc.text('Tarih',110,y);
       doc.text('Tamamlanan',135,y);doc.text('Toplam Cimento',162,y);y+=7;
     }
     var comp=getCompletedWells(p.id);
-    if(i%2===0)doc.setFillColor(248,249,255);else doc.setFillColor(255,255,255);
+    if(i%2===0)doc.setFillColor(245,245,245);else doc.setFillColor(255,255,255);
     doc.rect(12,y-4,186,7,'F');
     doc.setFontSize(8);doc.setTextColor(60,60,60);doc.setFont(undefined,'normal');
     doc.text(String(i+1),16,y);
     doc.text(tr(p.company).substring(0,26),26,y);
     doc.text(fmtDate(p.date),110,y);
-    doc.setTextColor(0,130,80);doc.setFont(undefined,'bold');
+    doc.setTextColor(60,60,60);doc.setFont(undefined,'bold');
     doc.text(String(comp)+' adet',135,y);
     doc.setTextColor(180,100,0);doc.setFont(undefined,'bold');
     doc.text(p.totalCement.toLocaleString('tr-TR')+' kg',162,y);
