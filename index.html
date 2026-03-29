@@ -1116,7 +1116,7 @@ function checkAuth(){
     return;
   }
   var val=document.getElementById('authInput').value;
-  ADMIN_PASS=localStorage.getItem('dsm_admin_pw')||'1234';
+  ADMIN_PASS=localStorage.getItem('dsm_admin_pw')||'8096';
   if(val===ADMIN_PASS){
     isAdmin=true;
     localStorage.setItem('dsm_admin','1');
