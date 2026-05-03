@@ -1305,14 +1305,16 @@ function renderProjectList(){
     return projSortAsc ? new Date(a.date)-new Date(b.date) : new Date(b.date)-new Date(a.date);
   });
 
-  list = list.filter(function(p){
-    if(!p.date) return false;
-    var pDate = new Date(p.date);
-    return pDate.getMonth() === currentProjectsMonth;
-  });
-
-  if(q) list=list.filter(function(p){return p.company.toLowerCase().includes(q);});
-  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">🔍</div>Bu ayda proje bulunmuyor.</div>';return;}
+  if(q){
+    list=list.filter(function(p){return p.company.toLowerCase().includes(q);});
+  } else {
+    list = list.filter(function(p){
+      if(!p.date) return false;
+      var pDate = new Date(p.date);
+      return pDate.getMonth() === currentProjectsMonth;
+    });
+  }
+  if(!list.length){el.innerHTML='<div class="empty"><div class="ei">🔍</div>'+(q?'Arama sonucu bulunamadı.':'Bu ayda proje bulunmuyor.')+'</div>';return;}
 
   var cards=list.map(function(p){
     var comp=getCompletedWells(p.id),rem=Math.max(0,p.wellCount-comp);
@@ -1827,85 +1829,81 @@ function renderDashboard(){
           var fc  = siloFill>0.55?'#2196F3':siloFill>0.3?'#00BFA5':siloFill>0.12?'#FF8F00':'#F44336';
           var fcL = siloFill>0.55?'#64B5F6':siloFill>0.3?'#4DB6AC':siloFill>0.12?'#FFB300':'#EF9A9A';
           var pct = lsiloGiren>0 ? Math.round(siloFill*100) : 0;
-          var elapsed = Math.floor((new Date()-new Date(last.date))/86400000);
 
-          // SVG dims — silo centered, wide enough for data
-          var W=320, H=480;
-          var cx=130;           // silo center x (left portion)
-          var bodyW=160;        // wider cylinder
+          // SVG geometry
+          var W=300, H=480;
+          var cx=128;
+          var bodyW=156;
           var bx=cx-bodyW/2;   // =50
-          var domeH=42, domeY=26;
-          var bodyTop=domeY+domeH;  // =68
-          var bodyH=280;
-          var coneH=72, pipeW=32, pipeH=34;
+          var domeH=40, domeY=24;
+          var bodyTop=domeY+domeH;  // =64
+          var bodyH=282;
+          var coneH=70, pipeW=32, pipeH=34;
           var pipeX=cx-pipeW/2;
-          var pipeY=bodyTop+bodyH+coneH;  // =420
+          var pipeY=bodyTop+bodyH+coneH;
 
-          var fillH = Math.round(siloFill * bodyH);
-          var fillY = bodyTop + bodyH - fillH;
+          var fillH  = Math.round(siloFill * bodyH);
+          var fillY  = bodyTop + bodyH - fillH;
 
-          // 4 inner data rows — inside the cylinder
-          // Each row: icon+label line + value line = 44px per row
+          // 3 inner rows: Son Silobas, Harcanan, Siloda Kalan
+          // Each row = label (small) + value (big) = 52px
           var innerRows = [
-            { label:'Son Silobas', val:lastSiloEntry.toLocaleString('tr-TR')+' kg', color:'rgba(220,235,255,0.95)' },
-            { label:'Harcanan',    val:lusedCementCalcSafe.toLocaleString('tr-TR')+' kg', color:'rgba(220,235,255,0.85)' },
-            { label:'Siloda Kalan',val:lsiloKalanAbs.toLocaleString('tr-TR')+' kg', color: lsiloKalan<0?'#EF9A9A':'#4DB6AC' },
-            { label:'Geçen Süre',  val:elapsed+' gün', color:'rgba(200,220,255,0.8)' }
+            { label:'🚛 Son Silobas',  val:lastSiloEntry.toLocaleString('tr-TR')+' kg',       color:'rgba(220,235,255,0.95)' },
+            { label:'🕳️ Harcanan',     val:lusedCementCalcSafe.toLocaleString('tr-TR')+' kg', color:'rgba(220,235,255,0.9)' },
+            { label:'🏭 Siloda Kalan', val:lsiloKalanAbs.toLocaleString('tr-TR')+' kg',       color:lsiloKalan<0?'#EF9A9A':'#4DB6AC' }
           ];
-          var rowH = 46;
-          var panelH = innerRows.length * rowH + 16;
-          var panelW = bodyW - 20;
-          var panelX = bx + 10;
-          // Center the panel vertically in the cylinder
+          var rowH   = 54;
+          var panelH = innerRows.length * rowH + 14;
+          var panelW = bodyW - 22;
+          var panelX = bx + 11;
+          // Center panel vertically in cylinder
           var panelY = bodyTop + (bodyH - panelH) / 2;
 
           var s =
             '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="display:block;">'+
             '<defs>'+
-              '<linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">'+
+              '<linearGradient id="cg3" x1="0" y1="0" x2="0" y2="1">'+
                 '<stop offset="0%" stop-color="'+fcL+'" stop-opacity="0.92"/>'+
                 '<stop offset="100%" stop-color="'+fc+'" stop-opacity="1"/>'+
               '</linearGradient>'+
-              '<linearGradient id="bg2" x1="0" y1="0" x2="1" y2="0">'+
+              '<linearGradient id="bg3" x1="0" y1="0" x2="1" y2="0">'+
                 '<stop offset="0%" stop-color="#0c1830"/>'+
                 '<stop offset="20%" stop-color="#122040"/>'+
                 '<stop offset="50%" stop-color="#162850"/>'+
                 '<stop offset="80%" stop-color="#122040"/>'+
                 '<stop offset="100%" stop-color="#080f22"/>'+
               '</linearGradient>'+
-              '<linearGradient id="sh2" x1="0" y1="0" x2="1" y2="0">'+
+              '<linearGradient id="sh3" x1="0" y1="0" x2="1" y2="0">'+
                 '<stop offset="0%" stop-color="rgba(255,255,255,0.13)"/>'+
                 '<stop offset="40%" stop-color="rgba(255,255,255,0.03)"/>'+
                 '<stop offset="100%" stop-color="rgba(0,0,0,0.16)"/>'+
               '</linearGradient>'+
-              '<clipPath id="bc2">'+
+              '<clipPath id="bc3">'+
                 '<polygon points="'+bx+','+bodyTop+' '+(bx+bodyW)+','+bodyTop+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(pipeY+pipeH)+' '+(cx-pipeW/2)+','+(pipeY+pipeH)+' '+bx+','+(bodyTop+bodyH)+'"/>'+
               '</clipPath>'+
             '</defs>'+
 
             // DOME
-            '<ellipse cx="'+cx+'" cy="'+(domeY+domeH)+'" rx="'+(bodyW/2)+'" ry="'+domeH+'" fill="url(#bg2)" stroke="rgba(130,185,255,0.42)" stroke-width="1.8"/>'+
-            '<ellipse cx="'+cx+'" cy="'+(domeY+domeH)+'" rx="'+(bodyW/2)+'" ry="'+domeH+'" fill="url(#sh2)"/>'+
+            '<ellipse cx="'+cx+'" cy="'+(domeY+domeH)+'" rx="'+(bodyW/2)+'" ry="'+domeH+'" fill="url(#bg3)" stroke="rgba(130,185,255,0.42)" stroke-width="1.8"/>'+
+            '<ellipse cx="'+cx+'" cy="'+(domeY+domeH)+'" rx="'+(bodyW/2)+'" ry="'+domeH+'" fill="url(#sh3)"/>'+
             '<path d="M'+(bx+20)+','+(domeY+domeH-12)+' Q'+cx+','+(domeY+6)+' '+(bx+bodyW-20)+','+(domeY+domeH-12)+'" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="1.5"/>'+
-            '<rect x="'+(cx-9)+'" y="'+(domeY-15)+'" width="18" height="17" rx="2" fill="#0c1830" stroke="rgba(130,185,255,0.42)" stroke-width="1.3"/>'+
-            '<rect x="'+(cx-7)+'" y="'+(domeY-20)+'" width="14" height="7" rx="1" fill="#0c1830" stroke="rgba(130,185,255,0.35)" stroke-width="1"/>'+
+            '<rect x="'+(cx-9)+'" y="'+(domeY-14)+'" width="18" height="16" rx="2" fill="#0c1830" stroke="rgba(130,185,255,0.42)" stroke-width="1.3"/>'+
+            '<rect x="'+(cx-7)+'" y="'+(domeY-20)+'" width="14" height="8" rx="1" fill="#0c1830" stroke="rgba(130,185,255,0.35)" stroke-width="1"/>'+
 
-            // CYLINDER BODY (background)
-            '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="url(#bg2)" stroke="rgba(130,185,255,0.3)" stroke-width="1.8"/>'+
+            // CYLINDER BODY
+            '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="url(#bg3)" stroke="rgba(130,185,255,0.3)" stroke-width="1.8"/>'+
 
             // CEMENT FILL
             (fillH>0 ?
-              '<g clip-path="url(#bc2)">'+
-                '<rect x="'+bx+'" y="'+fillY+'" width="'+bodyW+'" height="'+(bodyH+coneH+pipeH+30)+'" fill="url(#cg2)"/>'+
+              '<g clip-path="url(#bc3)">'+
+                '<rect x="'+bx+'" y="'+fillY+'" width="'+bodyW+'" height="'+(bodyH+coneH+pipeH+30)+'" fill="url(#cg3)"/>'+
                 '<path d="M'+bx+','+(fillY+5)+' c'+(bodyW*0.25)+',-15 '+(bodyW*0.75)+',-15 '+bodyW+',0 L'+(bx+bodyW)+','+fillY+' L'+bx+','+fillY+' Z" fill="'+fcL+'" opacity="0.38"/>'+
                 '<circle cx="'+(bx+24)+'" cy="'+(fillY+18)+'" r="5" fill="rgba(255,255,255,0.09)"/>'+
                 '<circle cx="'+(bx+bodyW-32)+'" cy="'+(fillY+24)+'" r="4" fill="rgba(255,255,255,0.07)"/>'+
                 '<rect x="'+(bx+12)+'" y="'+(fillY+12)+'" width="15" height="'+(Math.max(0,bodyH-(fillY-bodyTop)-24))+'" rx="7" fill="rgba(255,255,255,0.08)"/>'+
               '</g>'
             : '')+
-
-            // Shell shine + border on top
-            '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="url(#sh2)" stroke="none"/>'+
+            '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="url(#sh3)" stroke="none"/>'+
             '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="none" stroke="rgba(130,185,255,0.42)" stroke-width="1.8"/>'+
 
             // Rivets
@@ -1921,12 +1919,12 @@ function renderDashboard(){
               return '<rect x="'+(bx-4)+'" y="'+(ry-2)+'" width="'+(bodyW+8)+'" height="5" rx="2.5" fill="rgba(90,140,220,0.16)" stroke="rgba(130,185,255,0.22)" stroke-width="1"/>';
             }).join('')+
 
-            // LEVEL SCALE (right side of silo)
+            // LEVEL SCALE (right of silo)
             [0,0.25,0.5,0.75,1].map(function(p){
               var ly=bodyTop+bodyH-Math.round(p*bodyH);
               var isActive=Math.abs(p-siloFill)<0.08;
               return '<line x1="'+(bx+bodyW)+'" y1="'+ly+'" x2="'+(bx+bodyW+16)+'" y2="'+ly+'" stroke="'+(isActive?fc:'rgba(130,185,255,0.28)')+'" stroke-width="'+(isActive?2:1)+'"/>'+
-                     '<text x="'+(bx+bodyW+20)+'" y="'+(ly+4)+'" font-size="9.5" fill="'+(isActive?fcL:'rgba(130,185,255,0.4)')+'" font-family="monospace">'+(p*100)+'%</text>';
+                     '<text x="'+(bx+bodyW+20)+'" y="'+(ly+4)+'" font-size="9" fill="'+(isActive?fcL:'rgba(130,185,255,0.4)')+'" font-family="monospace">'+(Math.round(p*100))+'%</text>';
             }).join('')+
             (siloFill>0 ?
               '<polygon points="'+(bx+bodyW+2)+','+fillY+' '+(bx+bodyW+11)+','+(fillY-5)+' '+(bx+bodyW+11)+','+(fillY+5)+'" fill="'+fc+'"/>'+
@@ -1934,28 +1932,25 @@ function renderDashboard(){
             : '')+
 
             // HOPPER + PIPE + LEGS
-            '<polygon points="'+bx+','+(bodyTop+bodyH)+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(bodyTop+bodyH+coneH)+' '+(cx-pipeW/2)+','+(bodyTop+bodyH+coneH)+'" fill="url(#bg2)" stroke="rgba(130,185,255,0.35)" stroke-width="1.8"/>'+
-            (fillH>0?'<polygon points="'+bx+','+(bodyTop+bodyH)+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(bodyTop+bodyH+coneH)+' '+(cx-pipeW/2)+','+(bodyTop+bodyH+coneH)+'" fill="url(#cg2)" opacity="0.72"/>':'')+
-            '<rect x="'+pipeX+'" y="'+pipeY+'" width="'+pipeW+'" height="'+pipeH+'" fill="url(#bg2)" stroke="rgba(130,185,255,0.35)" stroke-width="1.5"/>'+
-            (fillH>0?'<rect x="'+pipeX+'" y="'+pipeY+'" width="'+pipeW+'" height="'+pipeH+'" fill="url(#cg2)" opacity="0.62"/>':'')+
+            '<polygon points="'+bx+','+(bodyTop+bodyH)+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(bodyTop+bodyH+coneH)+' '+(cx-pipeW/2)+','+(bodyTop+bodyH+coneH)+'" fill="url(#bg3)" stroke="rgba(130,185,255,0.35)" stroke-width="1.8"/>'+
+            (fillH>0?'<polygon points="'+bx+','+(bodyTop+bodyH)+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(bodyTop+bodyH+coneH)+' '+(cx-pipeW/2)+','+(bodyTop+bodyH+coneH)+'" fill="url(#cg3)" opacity="0.72"/>':'')+
+            '<rect x="'+pipeX+'" y="'+pipeY+'" width="'+pipeW+'" height="'+pipeH+'" fill="url(#bg3)" stroke="rgba(130,185,255,0.35)" stroke-width="1.5"/>'+
+            (fillH>0?'<rect x="'+pipeX+'" y="'+pipeY+'" width="'+pipeW+'" height="'+pipeH+'" fill="url(#cg3)" opacity="0.62"/>':'')+
             '<path d="M'+(pipeX-11)+','+(pipeY+pipeH+3)+' L'+(pipeX+pipeW+11)+','+(pipeY+pipeH+3)+'" stroke="rgba(130,185,255,0.42)" stroke-width="2.5" stroke-linecap="round"/>'+
             '<path d="M'+(cx-15)+','+(pipeY+pipeH+3)+' L'+cx+','+(pipeY+pipeH+18)+' L'+(cx+15)+','+(pipeY+pipeH+3)+'" fill="none" stroke="rgba(130,185,255,0.42)" stroke-width="1.8"/>'+
             '<line x1="'+(bx+10)+'" y1="'+(bodyTop+bodyH*0.8)+'" x2="'+(bx-22)+'" y2="'+(pipeY+pipeH+22)+'" stroke="rgba(130,185,255,0.25)" stroke-width="2.2" stroke-linecap="round"/>'+
             '<line x1="'+(bx+bodyW-10)+'" y1="'+(bodyTop+bodyH*0.8)+'" x2="'+(bx+bodyW+22)+'" y2="'+(pipeY+pipeH+22)+'" stroke="rgba(130,185,255,0.25)" stroke-width="2.2" stroke-linecap="round"/>'+
 
-            // ── DATA PANEL ALWAYS CENTERED IN CYLINDER ──
-            // Dark overlay panel
-            '<rect x="'+panelX+'" y="'+panelY+'" width="'+panelW+'" height="'+panelH+'" rx="10" fill="rgba(3,8,22,0.82)" stroke="rgba(100,160,255,0.22)" stroke-width="1.2"/>'+
-            // Rows
+            // ── 3 DATA ROWS INSIDE CYLINDER (always centered) ──
+            '<rect x="'+panelX+'" y="'+panelY+'" width="'+panelW+'" height="'+panelH+'" rx="10" fill="rgba(3,8,22,0.80)" stroke="rgba(100,160,255,0.2)" stroke-width="1.2"/>'+
             innerRows.map(function(r,i){
-              var ry = panelY + 10 + i*rowH;
-              // separator
-              var sep = i>0 ? '<line x1="'+(panelX+10)+'" y1="'+ry+'" x2="'+(panelX+panelW-10)+'" y2="'+ry+'" stroke="rgba(100,150,255,0.12)" stroke-width="1"/>' : '';
+              var ry = panelY + 8 + i*rowH;
+              var sep = i>0 ? '<line x1="'+(panelX+10)+'" y1="'+ry+'" x2="'+(panelX+panelW-10)+'" y2="'+ry+'" stroke="rgba(100,150,255,0.14)" stroke-width="1"/>' : '';
               return sep+
-                // Label
-                '<text x="'+(panelX+14)+'" y="'+(ry+16)+'" font-size="9" fill="rgba(140,180,255,0.6)" font-family="monospace" font-weight="600">'+r.label+'</text>'+
-                // Value — big and bold
-                '<text x="'+(panelX+14)+'" y="'+(ry+35)+'" font-size="15" font-weight="800" fill="'+r.color+'" font-family="monospace" letter-spacing="-0.5">'+r.val+'</text>';
+                // Label row
+                '<text x="'+(panelX+12)+'" y="'+(ry+17)+'" font-size="9" fill="rgba(160,195,255,0.6)" font-family="monospace" font-weight="600">'+r.label+'</text>'+
+                // Value row — large
+                '<text x="'+(panelX+12)+'" y="'+(ry+39)+'" font-size="16" font-weight="900" fill="'+r.color+'" font-family="monospace" letter-spacing="-0.5">'+r.val+'</text>';
             }).join('')+
 
             // Critical warning
@@ -1966,14 +1961,13 @@ function renderDashboard(){
 
             '</svg>';
 
-          // Bottom 2-item row for Proje Çimento + Gelecek Silobas
+          // 2 cards below for Proje Çimento + Gelecek Silobas
           var bottomItems = [
-            {icon:'📁', label:'Proje Çimento', val:ltotalCement.toLocaleString('tr-TR')+' kg', warn:false},
-            {icon:'🚛', label:'Gelecek Silobas', val:lremCementAbs.toLocaleString('tr-TR')+' kg', warn:lremCement<0}
+            {icon:'📁', label:'Proje Çimento',    val:ltotalCement.toLocaleString('tr-TR')+' kg',   warn:false},
+            {icon:'🚛', label:'Gelecek Silobas',  val:lremCementAbs.toLocaleString('tr-TR')+' kg',  warn:lremCement<0}
           ];
 
           return '<div style="margin-top:14px;background:linear-gradient(135deg,rgba(8,16,42,.97),rgba(4,10,26,.99));border:1px solid rgba(100,150,255,.2);border-radius:20px;overflow:hidden;">'+
-            // Header
             '<div style="padding:12px 16px 10px;border-bottom:1px solid rgba(100,150,255,.1);display:flex;align-items:center;justify-content:space-between;">'+
               '<div>'+
                 '<div style="font-size:.48rem;font-weight:700;color:rgba(100,160,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;font-family:monospace;">ÇİMENTO SİLO DURUMU</div>'+
@@ -1984,9 +1978,7 @@ function renderDashboard(){
                 '<div style="font-size:.44rem;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:1px;">Doluluk</div>'+
               '</div>'+
             '</div>'+
-            // Silo SVG
             '<div style="padding:4px 0 0;display:flex;justify-content:center;overflow:hidden;">'+s+'</div>'+
-            // Bottom 2 cards
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(100,150,255,.1);border-top:1px solid rgba(100,150,255,.1);">'+
               bottomItems.map(function(it){
                 return '<div style="padding:13px 16px;background:rgba(6,12,34,.96);">'+
