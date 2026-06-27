@@ -341,7 +341,13 @@ select option{background:#0d1428;color:#fff;}
         <div class="bc-avg" id="bcAvg">0</div>
         <div class="bc-timeframe" id="bcTimeframe">Bu Hafta</div>
         
-        <canvas id="barChart" height="180"></canvas>
+        <!-- Canvas'ı kaydırılabilir bir div içine alıyoruz -->
+        <div id="chartScrollWrap" style="width: 100%; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+          <canvas id="barChart" height="180"></canvas>
+        </div>
+        <style>
+          #chartScrollWrap::-webkit-scrollbar { display: none; }
+        </style>
       </div>
 
     </div>
@@ -2732,47 +2738,55 @@ function renderBarChart(){
 
 function drawNewBarChart(canvas, labels, data, mode){
   var dpr = window.devicePixelRatio||1;
-  var W = canvas.offsetWidth, H = canvas.clientHeight;
-  canvas.width = W*dpr; canvas.height = H*dpr;
-  var ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  var maxV = Math.max.apply(null, data)||1;
-  var minV = 0; 
-  var range = maxV;
-
-  var pad = {t:15, r:40, b:24, l:0};
-  var pw = W - pad.l - pad.r;
-  var ph = H - pad.t - pad.b;
-  ctx.clearRect(0,0,W,H);
+  var container = canvas.parentElement; 
+  var cardWidth = container.clientWidth || 300; 
+  var H = 180;
 
   var plotLabels = labels;
   var plotData = data;
+  
   if(mode === 'daily'){
     var dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
-    plotLabels = labels.slice(-7).map(function(d){ return dayNames[new Date(d+'T00:00:00').getDay()]; });
-    plotData = data.slice(-7);
-  } else {
-    plotLabels = labels.slice(-7);
-    plotData = data.slice(-7);
+    // Burada slice(-7) kısıtlamasını kaldırdık, geçmiş günlerin hepsi listelenecek
+    plotLabels = labels.map(function(d){ return dayNames[new Date(d+'T00:00:00').getDay()]; });
   }
 
   var n = plotData.length;
-  var gap = pw / n;
+  var minGap = 45; // Barların birbirine olan uzaklığı (sıkışmaması için)
+  var requiredWidth = n * minGap;
+  var finalWidth = Math.max(cardWidth, requiredWidth);
+
+  canvas.style.width = finalWidth + 'px';
+  canvas.width = finalWidth * dpr;
+  canvas.height = H * dpr;
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  var maxV = Math.max.apply(null, plotData)||1;
+  var minV = 0; 
+  var range = maxV;
+
+  var pad = {t:15, r:30, b:24, l:10};
+  var pw = finalWidth - pad.l - pad.r;
+  var ph = H - pad.t - pad.b;
+  ctx.clearRect(0,0,finalWidth,H);
+
+  var gap = pw / Math.max(n, 1);
   var bw = Math.max(8, Math.min(gap * 0.7, 36));
 
   ctx.lineWidth = 1;
+  
   for(var j=0; j<=2; j++){
     var gy = pad.t + (ph/2)*j;
     var gval = Math.round(maxV - (range/2)*j);
     ctx.strokeStyle = 'rgba(255,255,255,0.05)';
     ctx.setLineDash([]);
-    ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(pad.l+pw, gy); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(pad.l, gy); ctx.lineTo(finalWidth, gy); ctx.stroke();
     
     ctx.fillStyle = '#A09C96';
     ctx.font = '500 10px Plus Jakarta Sans,sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(gval.toLocaleString('tr-TR'), pad.l+pw+6, gy+4);
+    ctx.textAlign = 'right';
+    ctx.fillText(gval.toLocaleString('tr-TR'), finalWidth - 5, gy+4);
   }
 
   ctx.strokeStyle = 'rgba(255,255,255,0.08)';
@@ -2781,7 +2795,6 @@ function drawNewBarChart(canvas, labels, data, mode){
     var dx = pad.l + gap*i + gap/2;
     ctx.beginPath(); ctx.moveTo(dx, pad.t); ctx.lineTo(dx, pad.t+ph); ctx.stroke();
   }
-
   ctx.setLineDash([]);
 
   plotData.forEach(function(v, i){
@@ -2790,7 +2803,7 @@ function drawNewBarChart(canvas, labels, data, mode){
     var bh = Math.max(4, ((v - minV) / range) * ph);
     var y = pad.t + ph - bh;
 
-    ctx.fillStyle = '#0A84FF'; // Mavi bar rengi
+    ctx.fillStyle = '#0A84FF'; 
     var r = 4;
     ctx.beginPath();
     ctx.moveTo(x+r, y);     ctx.lineTo(x+bw-r, y);   ctx.quadraticCurveTo(x+bw, y, x+bw, y+r);
@@ -2799,7 +2812,7 @@ function drawNewBarChart(canvas, labels, data, mode){
     ctx.closePath();
     ctx.fill();
 
-    ctx.fillStyle = '#0A84FF'; // Üzerindeki sayı rengi
+    ctx.fillStyle = '#0A84FF';
     ctx.font = '600 10px Plus Jakarta Sans,sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(v.toLocaleString('tr-TR'), x+bw/2, y-4);
@@ -2812,8 +2825,12 @@ function drawNewBarChart(canvas, labels, data, mode){
     var x = pad.l + gap*i + gap/2;
     ctx.fillText(l, x, pad.t+ph+16);
   });
-}
 
+  // Grafik yüklendiğinde otomatik olarak en sağa (bugüne) kaydırır
+  setTimeout(function(){
+    container.scrollLeft = container.scrollWidth;
+  }, 10);
+}
 // ─── HIZLI GİRİŞ ─────────────────────────────────────────────────
 function openQuickEntry(){
   var modal=document.getElementById('quickModal');
