@@ -271,7 +271,7 @@ select option{background:#0d1428;color:#fff;}
 .rsv{font-size:.72rem;font-weight:700;color:#fff;}
 .lp-sv{font-size:.72rem;font-weight:700;color:#fff;}
 
-@media (min-width:920px){
+@Pro @media (min-width:920px){
   .content{max-width:960px;margin:0 auto;padding-left:24px;padding-right:24px;}
   .panel{padding:0 8px 14px;}
   .bottom-nav{max-width:500px;left:50%;right:auto;transform:translateX(-50%);}
@@ -1976,10 +1976,6 @@ function renderDashboard(){
               '<div style="background:'+(siloFill<0.15&&lsiloGiren>0?'rgba(244,67,54,.2)':'rgba(0,200,150,.1)')+';border:1px solid '+(siloFill<0.15&&lsiloGiren>0?'rgba(244,67,54,.4)':'rgba(0,200,150,.25)')+';border-radius:10px;padding:6px 14px;text-align:center;min-width:62px;">'+
                 '<div style="font-size:1.4rem;font-weight:900;color:'+(siloFill<0.15&&lsiloGiren>0?'#EF9A9A':fc)+';font-family:monospace;letter-spacing:-1px;line-height:1;">'+pct+'<span style="font-size:.7rem;">%</span></div>'+
                 '<div style="font-size:.44rem;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:1px;">Doluluk</div>'+
-                '<div style="margin-top:6px;background:rgba(255,255,255,0.12);border-radius:8px;padding:5px 0;">'+
-                  '<div style="font-size:1.1rem;font-weight:900;color:#fff;font-family:monospace;line-height:1;">'+siloRecs.length+'</div>'+
-                  '<div style="font-size:.4rem;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase;margin-top:2px;">Silobas</div>'+
-                '</div>'+
               '</div>'+
             '</div>'+
             '<div style="padding:4px 0 0;display:flex;justify-content:center;overflow:hidden;">'+s+'</div>'+
@@ -2962,4 +2958,4 @@ if('serviceWorker' in navigator){
   </div>
 </div>
 </body>
-</html>
+</html>  
