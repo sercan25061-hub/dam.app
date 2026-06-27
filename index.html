@@ -2747,18 +2747,22 @@ function drawNewBarChart(canvas, labels, data, mode){
   
   if(mode === 'daily'){
     var dayNames = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
-    // Burada slice(-7) kısıtlamasını kaldırdık, geçmiş günlerin hepsi listelenecek
     plotLabels = labels.map(function(d){ return dayNames[new Date(d+'T00:00:00').getDay()]; });
   }
 
   var n = plotData.length;
-  var minGap = 45; // Barların birbirine olan uzaklığı (sıkışmaması için)
+  // Eski çubuk genişliğini korumak için her çubuğa ortalama 45px alan veriyoruz
+  var minGap = 45; 
   var requiredWidth = n * minGap;
   var finalWidth = Math.max(cardWidth, requiredWidth);
 
-  canvas.style.width = finalWidth + 'px';
+  // İŞTE ÇÖZÜM BURADA: CSS'deki width:100% !important kuralını eziyoruz ki sıkışmasın, yana uzasın!
+  canvas.style.setProperty('width', finalWidth + 'px', 'important');
+  canvas.style.setProperty('max-width', 'none', 'important');
+  
   canvas.width = finalWidth * dpr;
   canvas.height = H * dpr;
+  
   var ctx = canvas.getContext('2d');
   ctx.scale(dpr, dpr);
 
@@ -2766,11 +2770,12 @@ function drawNewBarChart(canvas, labels, data, mode){
   var minV = 0; 
   var range = maxV;
 
-  var pad = {t:15, r:30, b:24, l:10};
+  var pad = {t:15, r:30, b:24, l:15};
   var pw = finalWidth - pad.l - pad.r;
   var ph = H - pad.t - pad.b;
   ctx.clearRect(0,0,finalWidth,H);
 
+  // Çubuk kalınlıkları hesaplanıyor
   var gap = pw / Math.max(n, 1);
   var bw = Math.max(8, Math.min(gap * 0.7, 36));
 
@@ -2786,6 +2791,7 @@ function drawNewBarChart(canvas, labels, data, mode){
     ctx.fillStyle = '#A09C96';
     ctx.font = '500 10px Plus Jakarta Sans,sans-serif';
     ctx.textAlign = 'right';
+    // Rakamları en sağa yazdırıyoruz
     ctx.fillText(gval.toLocaleString('tr-TR'), finalWidth - 5, gy+4);
   }
 
@@ -2829,7 +2835,7 @@ function drawNewBarChart(canvas, labels, data, mode){
   // Grafik yüklendiğinde otomatik olarak en sağa (bugüne) kaydırır
   setTimeout(function(){
     container.scrollLeft = container.scrollWidth;
-  }, 10);
+  }, 50);
 }
 // ─── HIZLI GİRİŞ ─────────────────────────────────────────────────
 function openQuickEntry(){
