@@ -190,7 +190,19 @@ select option{background:#0d1428;color:#fff;}
 .bc-label{font-size:.56rem;font-weight:600;color:var(--dim);letter-spacing:.3px;text-transform:uppercase;margin-bottom:2px;}
 .bc-avg{font-size:2.5rem;font-weight:800;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:3px;}
 .bc-timeframe{font-size:.62rem;color:var(--dim);margin-bottom:14px;}
-
+/* PROJE KARTLARI DÜZENİ */
+.pcard { background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 18px 16px; margin-bottom: 14px; backdrop-filter: blur(12px); }
+.pcname { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.mgrid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+.mi { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 6px; }
+.mi:last-child { border-bottom: none; padding-bottom: 0; }
+.ml { font-size: 0.65rem; font-weight: 600; color: var(--dim); }
+.mv { font-size: 0.75rem; font-weight: 700; color: #fff; text-align: right; }
+.mv.o { color: var(--orange); }
+.mv.g { color: var(--green); }
+.mv.r { color: var(--red); }
+.mv.b { color: var(--blueL); }
+.cactions { display: flex; gap: 6px; margin-top: 16px; }
 /* LISTS */
 #project-list-panel > div,#records-list > div,#piston-list > div,#mil-list > div{background:var(--surface);border:none;border-radius:18px;padding:14px 16px;margin-bottom:3px;transition:background .15s;backdrop-filter:blur(12px);}
 #project-list-panel > div:hover,#records-list > div:hover{background:var(--surface3);}
@@ -1329,19 +1341,24 @@ function renderProjectList(){
     var pUsedCement=dailyRecords.filter(function(r){return r.projectId===p.id;}).reduce(function(s,r){return s+(r.siloCement||0);},0);
     var pTotalCement=p.totalCement||((p.cementPerWell||0)*(p.wellCount||0));
     var pCementOver=pUsedCement>pTotalCement;
+    
+    // YENİ EKLENEN: Gelen silobas sayısını kayıtların içinden hesaplıyoruz
+    var siloCount = dailyRecords.filter(function(r){return r.projectId===p.id && (parseFloat(r.siloCement)||0)>0;}).length;
+
     return '<div class="pcard">'+
-      '<div class="pcname" style="display:flex;align-items:center;gap:8px;">'+
+      '<div class="pcname">'+
         p.company+
-        (pCementOver?'<span title="Çimento limiti aşıldı!" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--red);flex-shrink:0;" >!</span>':'')+
+        (pCementOver?'<span title="Çimento limiti aşıldı!" style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--red);flex-shrink:0;font-size:10px;font-weight:bold;">!</span>':'')+
       '</div>'+
       '<div class="mgrid">'+
         '<div class="mi"><span class="ml">Tarih</span><span class="mv">'+fmtDate(p.date)+'</span></div>'+
-        '<div class="mi"><span class="ml">Başlangıçtan İtibaren Geçen Süre</span><span class="mv o">'+elapsed+' gün</span></div>'+
+        '<div class="mi"><span class="ml">Geçen Süre</span><span class="mv o">'+elapsed+' gün</span></div>'+
         '<div class="mi"><span class="ml">Toplam Kuyu</span><span class="mv">'+p.wellCount+'</span></div>'+
         '<div class="mi"><span class="ml">Yapılan Kuyu</span><span class="mv g">'+comp+'</span></div>'+
-        '<div class="mi"><span class="ml">Kalan</span><span class="mv r">'+rem+'</span></div>'+
+        '<div class="mi"><span class="ml">Kalan Kuyu</span><span class="mv r">'+rem+'</span></div>'+
         '<div class="mi"><span class="ml">Proje Çimentosu</span><span class="mv">'+p.totalCement.toLocaleString('tr-TR')+' kg</span></div>'+
-        '<div class="mi"><span class="ml">Toplam Silobas Çimento</span><span class="mv '+(pCementOver?'r':'o')+'\"\u003e'+pUsedCement.toLocaleString('tr-TR')+' kg\u003c/span\u003e\u003c/div\u003e'+
+        '<div class="mi"><span class="ml">Toplam Gelen Çimento</span><span class="mv '+(pCementOver?'r':'o')+'">'+pUsedCement.toLocaleString('tr-TR')+' kg</span></div>'+
+        '<div class="mi"><span class="ml">Gelen Silobas Adedi</span><span class="mv" style="color:#fff;">'+siloCount+' Adet</span></div>'+
         (p.scRatio?'<div class="mi"><span class="ml">S/Ç Oranı</span><span class="mv b">'+p.scRatio+'</span></div>':'')+
         (p.diameter?'<div class="mi"><span class="ml">Kolon Çapı</span><span class="mv">'+p.diameter+' cm</span></div>':'')+
         (p.depth?'<div class="mi"><span class="ml">Derinlik</span><span class="mv">'+p.depth+' m</span></div>':'')+
