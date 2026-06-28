@@ -1559,7 +1559,37 @@ function addDailyRecord(){
   if(!wells&&!silo){notify('Kuyu veya çimento girin!','var(--red)');return;}
   if(wells&&!wd){notify('Kuyu için tarih girin!','var(--red)');return;}
   if(silo&&!sd){notify('Çimento için tarih girin!','var(--red)');return;}
-  dailyRecords.push({id:Date.now(),projectId:pid,wells,wellsDate:wd||null,siloCement:silo,siloDate:sd||null,date:new Date().toISOString()});
+
+  // --- ÇİFT KAYIT KONTROLÜ (VALIDASYON) ---
+  var isDuplicate = false;
+  var existingIndex = -1;
+  for (var i = 0; i < dailyRecords.length; i++) {
+    var r = dailyRecords[i];
+    if (r.projectId === pid) {
+      if (wells > 0 && r.wellsDate === wd && (r.wells || 0) > 0) { isDuplicate = true; existingIndex = i; break; }
+      if (silo > 0 && r.siloDate === sd && (r.siloCement || 0) > 0) { isDuplicate = true; existingIndex = i; break; }
+    }
+  }
+
+  if (isDuplicate) {
+    var onay = confirm("Dikkat! Seçtiğiniz tarihte bu proje için zaten bir kayıt var.\n\nEski kaydın üzerine yazmak (güncellemek) istiyor musunuz?");
+    if (!onay) {
+      return; // Kullanıcı iptal etti
+    } else {
+      // Eski kaydı siliyoruz ve jeneratör/santral saatlerini geri alıyoruz ki hesap şaşmasın
+      var delRec = dailyRecords[existingIndex];
+      if (delRec.wells && delRec.wells > 0) {
+        var subHours = Math.round(delRec.wells * 10 / 60);
+        maintSettings.current = Math.max(0, Math.round((parseFloat(maintSettings.current)||0) - subHours));
+        santralSettings.current = Math.max(0, Math.round((parseFloat(santralSettings.current)||0) - subHours));
+      }
+      dailyRecords.splice(existingIndex, 1);
+    }
+  }
+  // -----------------------------------------
+
+  dailyRecords.push({id:Date.now(),projectId:pid,wells:wells,wellsDate:wd||null,siloCement:silo,siloDate:sd||null,date:new Date().toISOString()});
+  
   // Jeneratör: her kuyu 10 dk = 1/6 saat
   if(wells>0){
     var addHours = Math.round(wells * 10/60);
@@ -1567,6 +1597,7 @@ function addDailyRecord(){
     var mc=document.getElementById('maint-current');
     if(mc) mc.value=maintSettings.current;
     updateMaintStatus();
+    
     // Santral: aynı oran
     santralSettings.current = Math.round((parseFloat(santralSettings.current)||0) + addHours);
     var sc=document.getElementById('santral-current');
@@ -1575,7 +1606,7 @@ function addDailyRecord(){
   }
   save();refreshAll();clearDailyForm();
   setTimeout(function(){renderBarChart();},100);
-  notify('Kayıt eklendi! Jeneratör/Santral: +'+(wells>0?Math.round(wells*10/60*10)/10:0)+'h','var(--greenL)');
+  notify('Kayıt ' + (isDuplicate ? 'güncellendi!' : 'eklendi!') + ' Jeneratör/Santral: +'+(wells>0?Math.round(wells*10/60*10)/10:0)+'h','var(--greenL)');
 }
 function clearDailyForm(){
   document.getElementById('d-project').value='';
@@ -2888,10 +2919,41 @@ function saveQuickEntry(){
   if(!pid){notify('Proje seçin!','');return;}
   if(!wells){notify('Kuyu sayısı girin!','');return;}
   if(!date){notify('Tarih seçin!','');return;}
+
+  // --- HIZLI GİRİŞ ÇİFT KAYIT KONTROLÜ ---
+  var isDuplicate = false;
+  var existingIndex = -1;
+  for (var i = 0; i < dailyRecords.length; i++) {
+    var r = dailyRecords[i];
+    if (r.projectId === pid && r.wellsDate === date && (r.wells || 0) > 0) {
+      isDuplicate = true; existingIndex = i; break;
+    }
+  }
+
+  if (isDuplicate) {
+    var onay = confirm("Dikkat! Seçtiğiniz tarihte bu proje için zaten bir kuyu kaydı var.\n\nEski kaydın üzerine yazılsın mı?");
+    if (!onay) return;
+
+    // Eski kaydın jeneratör/santral saatlerini düş
+    var delRec = dailyRecords[existingIndex];
+    var subHours = Math.round(delRec.wells * 10 / 60);
+    maintSettings.current = Math.max(0, Math.round((parseFloat(maintSettings.current)||0) - subHours));
+    santralSettings.current = Math.max(0, Math.round((parseFloat(santralSettings.current)||0) - subHours));
+    
+    dailyRecords.splice(existingIndex, 1);
+  }
+  // ---------------------------------------
+
   dailyRecords.push({id:Date.now(),projectId:pid,wells:wells,wellsDate:date,siloCement:null,siloDate:null,date:date});
+  
+  // Yeni saatleri ekle
+  var addHours = Math.round(wells * 10/60);
+  maintSettings.current = Math.round((parseFloat(maintSettings.current)||0) + addHours);
+  santralSettings.current = Math.round((parseFloat(santralSettings.current)||0) + addHours);
+  
   save();refreshAll();
   closeQuickModal();
-  notify('✓ '+wells+' kuyu kaydedildi!','');
+  notify('✓ '+wells+' kuyu ' + (isDuplicate ? 'güncellendi!' : 'kaydedildi!'),'');
 }
 
 function downloadOrShare(filename, blob, typeLabel) {
