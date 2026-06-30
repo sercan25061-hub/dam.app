@@ -2721,12 +2721,17 @@ function renderBarChart(){
   var lblEl = document.getElementById('bcLabel');
   var avgEl = document.getElementById('bcAvg');
   var tfEl = document.getElementById('bcTimeframe');
+  var ctx = canvas.getContext('2d');
 
   if(barMode === 'daily'){
     lblEl.textContent = 'GÜNLÜK ORTALAMA';
     tfEl.textContent = 'Bu Ay';
     var days = Object.keys(dateMap).filter(function(d){ return d.substring(0,7) === monthPrefix; }).sort();
-    if(!days.length){card.style.display='none';return;}
+    if(!days.length){ 
+      ctx.clearRect(0, 0, canvas.width, canvas.height); 
+      avgEl.textContent = "0"; 
+      return; 
+    }
     labels = days;
     data = days.map(function(d){return dateMap[d];});
     drawNewBarChart(canvas, labels, data, 'daily');
@@ -2744,7 +2749,7 @@ function renderBarChart(){
       weekMap[key] = (weekMap[key]||0) + dateMap[d];
     });
     var wkeys = Object.keys(weekMap).sort(function(a,b){ return parseInt(a.substring(1))-parseInt(b.substring(1)); });
-    if(!wkeys.length){card.style.display='none';return;}
+    if(!wkeys.length){ ctx.clearRect(0, 0, canvas.width, canvas.height); avgEl.textContent = "0"; return; }
     labels = wkeys;
     data = wkeys.map(function(k){return weekMap[k];});
     drawNewBarChart(canvas, labels, data, 'weekly');
@@ -2760,7 +2765,7 @@ function renderBarChart(){
       monthMap[key] = (monthMap[key]||0) + dateMap[d];
     });
     var mkeys = Object.keys(monthMap).sort();
-    if(!mkeys.length){card.style.display='none';return;}
+    if(!mkeys.length){ ctx.clearRect(0, 0, canvas.width, canvas.height); avgEl.textContent = "0"; return; }
     labels = mkeys.map(function(k){return AYLAR2[parseInt(k.split('-')[1])-1];});
     data = mkeys.map(function(k){return monthMap[k];});
     drawNewBarChart(canvas, labels, data, 'monthly');
@@ -2775,7 +2780,7 @@ function renderBarChart(){
       yearMap[key] = (yearMap[key]||0) + dateMap[d];
     });
     var ykeys = Object.keys(yearMap).sort();
-    if(!ykeys.length){card.style.display='none';return;}
+    if(!ykeys.length){ ctx.clearRect(0, 0, canvas.width, canvas.height); avgEl.textContent = "0"; return; }
     labels = ykeys;
     data = ykeys.map(function(k){return yearMap[k];});
     drawNewBarChart(canvas, labels, data, 'yearly');
@@ -2783,7 +2788,6 @@ function renderBarChart(){
     avgEl.textContent = Math.round(avg4).toLocaleString('tr-TR');
   }
 }
-
 function drawNewBarChart(canvas, labels, data, mode){
   var dpr = window.devicePixelRatio||1;
   var container = canvas.parentElement; 
