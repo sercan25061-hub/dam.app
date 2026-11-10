@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DSM">
 <meta name="theme-color" content="#0E131E">
+<link rel="manifest" href="./manifest.json">
 <title>DSM - Aydın Jeoteknik</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,15 +24,24 @@
   --surface-card: #171B27;
   --input-secondary: #1C2130;
   --border-card: #252B3B;
+  --border-subtle: rgba(255,255,255,0.06);
+
   --primary-cyan: #00D2FF;
+  --primary-cyan-bg: rgba(0, 210, 255, 0.12);
   --warning-orange: #F59E0B;
+  --warning-orange-bg: rgba(245, 158, 11, 0.12);
   --error-red: #EF4444;
+  --error-red-bg: rgba(239, 68, 68, 0.12);
   --success-green: #10B981;
+  --success-green-bg: rgba(16, 185, 129, 0.12);
   --passive-color: #2B3245;
+
   --text-high: #FFFFFF;
   --text-muted: #94A3B8;
-  --nav-h: 70px;
-  --header-h: 64px;
+  --text-dim: #64748B;
+
+  --header-h: 62px;
+  --nav-h: 68px;
 }
 
 * {
@@ -58,10 +68,10 @@ html, body {
   position: relative;
 }
 
-/* ÜST HEADER */
+/* ─── HEADER ─── */
 .header {
   height: var(--header-h);
-  background-color: var(--bg-scaffold);
+  background: var(--bg-scaffold);
   border-bottom: 1px solid var(--border-card);
   padding: 0 16px;
   display: flex;
@@ -71,36 +81,37 @@ html, body {
   z-index: 40;
 }
 
-.brand-wrap {
+.logo-wrap {
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  user-select: none;
 }
 
-.brand-title-wrap {
+.logo-row {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .brand-badge {
-  background: rgba(0, 210, 255, 0.15);
+  background: var(--primary-cyan-bg);
   border: 1px solid var(--primary-cyan);
   color: var(--primary-cyan);
   font-size: 11px;
   font-weight: 900;
-  padding: 2px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
   letter-spacing: 1px;
 }
 
 .brand-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-high);
 }
 
-.brand-subtitle {
+.brand-sub {
   font-size: 10px;
   color: var(--text-muted);
   font-weight: 500;
@@ -125,12 +136,16 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .hbtn.cyan {
   color: var(--primary-cyan);
+  border-color: rgba(0,210,255,0.3);
+  background: var(--primary-cyan-bg);
 }
+
+.hbtn:active { transform: scale(0.97); }
 
 .date-pill {
   background: var(--input-secondary);
@@ -145,30 +160,30 @@ html, body {
   gap: 4px;
 }
 
-/* İÇERİK ALANI */
+/* ─── CONTENT & SCROLL ─── */
 .content {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 14px calc(var(--nav-h) + 30px);
+  padding: 16px 14px calc(var(--nav-h) + 36px);
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 .content::-webkit-scrollbar { display: none; }
 
-/* ALT NAVİGASYON */
+/* ─── BOTTOM NAV ─── */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: var(--nav-h);
-  background-color: var(--surface-card);
+  background: var(--surface-card);
   border-top: 1px solid var(--border-card);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 4px 8px env(safe-area-inset-bottom);
+  padding: 4px 6px env(safe-area-inset-bottom);
   z-index: 50;
 }
 
@@ -177,7 +192,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   background: none;
   border: none;
   color: var(--text-muted);
@@ -193,8 +208,8 @@ html, body {
 }
 
 .nav-item svg {
-  width: 22px;
-  height: 22px;
+  width: 21px;
+  height: 21px;
   stroke: currentColor;
   fill: none;
   stroke-width: 2;
@@ -202,18 +217,18 @@ html, body {
   stroke-linejoin: round;
 }
 
-/* PANELLER */
+/* ─── PANELLER ─── */
 .panel { display: none; }
 .panel.active { display: block; animation: fadeIn 0.2s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-/* DASHBOARD METRİKLER */
-.metric-hero {
+/* ─── DASHBOARD HERO ─── */
+.greet-card {
   text-align: center;
-  padding: 14px 0 20px;
+  padding: 10px 0 16px;
 }
 
-.metric-hero .big-number {
+.hero-val {
   font-size: 48px;
   font-weight: 800;
   color: var(--text-high);
@@ -221,16 +236,18 @@ html, body {
   line-height: 1;
 }
 
-.metric-hero .label {
+.hero-label {
   font-size: 11px;
   letter-spacing: 1.5px;
   color: var(--text-muted);
   font-weight: 700;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .badge-summary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--input-secondary);
   border: 1px solid var(--border-card);
   color: var(--primary-cyan);
@@ -241,16 +258,21 @@ html, body {
   margin-top: 8px;
 }
 
-/* ALARM KARTI */
+/* ALARM KARTLARI */
 .alarm-card {
-  background: rgba(239, 68, 68, 0.1);
+  background: var(--error-red-bg);
   border: 1px solid var(--error-red);
   border-radius: 12px;
   padding: 12px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+}
+
+.alarm-card.orange {
+  background: var(--warning-orange-bg);
+  border-color: var(--warning-orange);
 }
 
 .alarm-left {
@@ -265,6 +287,11 @@ html, body {
   background-color: var(--error-red);
   border-radius: 50%;
   box-shadow: 0 0 8px var(--error-red);
+}
+
+.alarm-card.orange .pulse-dot {
+  background-color: var(--warning-orange);
+  box-shadow: 0 0 8px var(--warning-orange);
 }
 
 .alarm-text {
@@ -284,126 +311,67 @@ html, body {
   cursor: pointer;
 }
 
+.alarm-card.orange .alarm-btn {
+  background: var(--warning-orange);
+}
+
 /* 4'LÜ DAİRESEL KPI */
-.kpi-grid {
+.greet-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-.kpi-circle-card {
+.greet-stat-ring {
   background: var(--surface-card);
   border: 1px solid var(--border-card);
   border-radius: 12px;
-  padding: 12px 4px;
+  padding: 10px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.kpi-ring {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 2px solid var(--border-card);
+.circ-wrap {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 6px;
+}
+
+.circ-wrap svg { transform: rotate(-90deg); }
+
+.c-fill { transition: stroke-dashoffset 0.8s ease-out; }
+
+.cv-text {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
   font-weight: 800;
-  margin-bottom: 8px;
+  color: #fff;
 }
 
-.kpi-ring.cyan { border-color: var(--primary-cyan); color: var(--primary-cyan); }
-.kpi-ring.orange { border-color: var(--warning-orange); color: var(--warning-orange); }
-.kpi-ring.dark { border-color: var(--passive-color); color: var(--text-high); }
-
-.kpi-label {
+.gs-label {
   font-size: 9px;
-  color: var(--text-muted);
   font-weight: 600;
+  color: var(--text-muted);
   line-height: 1.2;
 }
 
-/* SİLO TELEMETRİ KARTI */
-.telemetry-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-card);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-.telemetry-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 14px;
-}
-
-.project-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-high);
-}
-
-.badge-red {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid var(--error-red);
-  color: var(--error-red);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 6px;
-}
-
-.telemetry-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.tele-box {
-  background: var(--input-secondary);
-  border: 1px solid var(--border-card);
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.tele-label {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-bottom: 4px;
-}
-
-.tele-val {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-high);
-}
-
-.tele-footer {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-  border-top: 1px solid var(--border-card);
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.tele-footer strong {
-  color: var(--text-high);
-}
-
-/* FORM ELEMANLARI & KARTLAR */
+/* FORM, KUTULAR VE TABLAR */
 .stitle {
   font-size: 13px;
   font-weight: 700;
   color: var(--text-high);
   margin: 18px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .bcard {
@@ -438,6 +406,10 @@ input, select, textarea {
   outline: none;
 }
 
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary-cyan) !important;
+}
+
 .brow { display: flex; gap: 8px; margin-top: 10px; }
 .btn {
   flex: 1;
@@ -447,28 +419,52 @@ input, select, textarea {
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.15s;
 }
 .btn-p { background: var(--primary-cyan); color: #0E131E; }
 .btn-s { background: var(--passive-color); color: var(--text-high); }
 .btn-e { background: var(--error-red); color: #fff; }
 .btn-d { background: rgba(239, 68, 68, 0.2); color: var(--error-red); border: 1px solid var(--error-red); }
 
-/* LİSTE KARTLARI */
-.rcard, .pcard {
+/* PROJE VE KAYIT KARTLARI */
+.pcard, .rcard {
   background: var(--surface-card);
   border: 1px solid var(--border-card);
   border-radius: 14px;
   padding: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
+.pcname { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.mgrid {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 14px;
+  background: var(--input-secondary);
+  padding: 12px;
+  border-radius: 10px;
+}
+.mi {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed var(--border-subtle);
+  padding-bottom: 5px;
+}
+.mi:last-child { border-bottom: none; padding-bottom: 0; }
+.ml { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+.mv { font-size: 12px; font-weight: 700; color: #fff; }
+.mv.o { color: var(--warning-orange); }
+.mv.g { color: var(--success-green); }
+.mv.r { color: var(--error-red); }
+.mv.b { color: var(--primary-cyan); }
+
 .rheader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .rproj { font-size: 13px; font-weight: 700; color: #fff; }
 .rstats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .rstat { display: flex; flex-direction: column; }
 .rsl { font-size: 10px; color: var(--text-muted); }
 .rsv { font-size: 13px; font-weight: 700; color: #fff; }
-.rsv.g { color: var(--success-green); }
-.rsv.o { color: var(--warning-orange); }
 
 .month-tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 12px; padding-bottom: 4px; }
 .month-tabs::-webkit-scrollbar { display: none; }
@@ -489,10 +485,65 @@ input, select, textarea {
   border-color: var(--primary-cyan);
 }
 
+.circ-prog-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--input-secondary);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+.circ-prog { position: relative; width: 48px; height: 48px; }
+.circ-prog svg { transform: rotate(-90deg); }
+.circ-prog-track { fill: none; stroke: var(--border-card); stroke-width: 5; }
+.circ-prog-fill { fill: none; stroke-width: 5; stroke-linecap: round; }
+.circ-prog-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+.cp-pct { font-size: 12px; font-weight: 700; color: #fff; }
+.cp-sub { font-size: 10px; color: var(--text-muted); }
+
+/* BAR CHART KART */
+.bar-chart-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: 14px;
+}
+.bc-tabs {
+  display: flex;
+  gap: 3px;
+  background: var(--input-secondary);
+  padding: 3px;
+  border-radius: 10px;
+  width: fit-content;
+  margin-bottom: 12px;
+}
+.bctab {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.bctab.active { background: var(--passive-color); color: #fff; }
+
 .empty { text-align: center; padding: 32px 0; color: var(--text-muted); font-size: 12px; }
 
-/* MODAL */
-.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; backdrop-filter: blur(4px); }
+/* MODAL & TOAST */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100; backdrop-filter: blur(5px); }
 .modal-bg.open { display: flex; align-items: flex-end; }
 .modal { background: var(--surface-card); border-top: 1px solid var(--border-card); border-radius: 20px 20px 0 0; width: 100%; padding: 20px; }
 .modal-title { font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
@@ -506,12 +557,12 @@ input, select, textarea {
   background: var(--surface-card);
   border: 1px solid var(--primary-cyan);
   color: #fff;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
   z-index: 200;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.6);
 }
 </style>
 </head>
@@ -519,14 +570,14 @@ input, select, textarea {
 <body>
 <div class="app">
 
-  <!-- ÜST HEADER BAR -->
+  <!-- ─── HEADER ─── -->
   <header class="header">
-    <div class="brand-wrap" onclick="logoTap()">
-      <div class="brand-title-wrap">
+    <div class="logo-wrap" onclick="logoTap()">
+      <div class="logo-row">
         <span class="brand-badge">DSM</span>
         <span class="brand-title">Şantiye Takip</span>
       </div>
-      <span class="brand-subtitle">Aydın Jeoteknik Müh. Tic. Ltd. Şti.</span>
+      <span class="brand-sub">Aydın Jeoteknik Müh. Tic. Ltd. Şti.</span>
     </div>
     <div class="header-right">
       <button class="hbtn cyan admin-only" onclick="exportData()">↓ Yedek</button>
@@ -535,76 +586,50 @@ input, select, textarea {
         <input type="file" accept=".json" onchange="importData(event)" style="display:none;">
       </label>
       <div class="date-pill" onclick="openAuthModal()" style="cursor:pointer;">
-        <span id="lockStatus">🔒</span> <span id="hDate">10.11.2026</span>
+        <span id="lockStatus">🔒</span> <span id="hDate"></span>
       </div>
     </div>
   </header>
 
-  <!-- İÇERİK BÖLÜMÜ -->
+  <!-- ─── MAIN CONTENT ─── -->
   <div class="content" id="mainContent">
 
-    <!-- ═══ 1. SEKME: İSTATİSTİK / DASHBOARD ═══ -->
+    <!-- ═══ 1. İSTATİSTİK / DASHBOARD ═══ -->
     <div class="panel active" id="tab-dashboard">
-      <!-- BÜYÜK METRİK -->
-      <div class="metric-hero">
-        <div class="big-number" id="d-comp">0</div>
-        <div class="label">TAMAMLANAN TOPLAM KUYU</div>
-        <div class="badge-summary"><span id="d-cnt">0</span> Proje Tamamlandı</div>
+      <div class="greet-card">
+        <div class="hero-val" id="d-comp">0</div>
+        <div class="hero-label">TAMAMLANAN TOPLAM KUYU</div>
+        <div class="badge-summary">
+          <span>📁</span> <span id="d-cnt">0</span> Proje Tamamlandı
+        </div>
       </div>
 
-      <!-- ALARM BANNER -->
+      <!-- ALARMLAR -->
       <div id="maint-alert-panel"></div>
       <div id="santral-alert-panel"></div>
 
-      <!-- 4'LÜ DAİRESEL KPI -->
-      <div class="kpi-grid">
-        <div class="kpi-circle-card">
-          <div class="kpi-ring cyan" id="kpi-proje-kuyu">0</div>
-          <div class="kpi-label">Proje Kuyu Sayısı</div>
+      <!-- AKTİF PROJE & DAİRESEL 4'LÜ KPI SAYAÇLARI + SİLO -->
+      <div class="stitle">Aktif Proje</div>
+      <div id="d-last-proj"></div>
+
+      <!-- ÇUBUK GRAFİK -->
+      <div class="bar-chart-card" id="barChartCard" style="display:none;">
+        <div class="bc-tabs">
+          <button class="bctab active" onclick="setBarMode('daily',this)">G</button>
+          <button class="bctab" onclick="setBarMode('weekly',this)">H</button>
+          <button class="bctab" onclick="setBarMode('monthly',this)">A</button>
+          <button class="bctab" onclick="setBarMode('yearly',this)">Y</button>
         </div>
-        <div class="kpi-circle-card">
-          <div class="kpi-ring dark" id="kpi-yapilan-kuyu">0</div>
-          <div class="kpi-label">Yapılan Kuyu</div>
-        </div>
-        <div class="kpi-circle-card">
-          <div class="kpi-ring orange" id="kpi-kalan-kuyu">0</div>
-          <div class="kpi-label">Kalan Kuyu</div>
-        </div>
-        <div class="kpi-circle-card">
-          <div class="kpi-ring dark" id="kpi-gecen-sure">0</div>
-          <div class="kpi-label">Geçen Süre (Gün)</div>
+        <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;" id="bcLabel">GÜNLÜK ORTALAMA</div>
+        <div style="font-size:28px;font-weight:800;color:#fff;margin:2px 0;" id="bcAvg">0</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px;" id="bcTimeframe">Bu Ay</div>
+        <div id="chartScrollWrap" style="width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+          <canvas id="barChart" height="180"></canvas>
         </div>
       </div>
-
-      <!-- ÇİMENTO SİLO TELEMETRİ KARTI -->
-      <div class="telemetry-card">
-        <div class="telemetry-head">
-          <div>
-            <div class="tele-label">AKTİF ŞANTİYE</div>
-            <div class="project-name" id="d-last-proj-title">—</div>
-          </div>
-          <span class="badge-red" id="d-silo-doluluk">%0 Doluluk</span>
-        </div>
-        <div class="telemetry-row">
-          <div class="tele-box">
-            <div class="tele-label">Siloda Kalan</div>
-            <div class="tele-val" id="d-silo-kalan">0 kg</div>
-          </div>
-          <div class="tele-box">
-            <div class="tele-label">Son Silobas</div>
-            <div class="tele-val" id="d-silo-son">0 kg</div>
-          </div>
-        </div>
-        <div class="tele-footer">
-          <span>Proje Çimento: <strong id="d-silo-proje">0 kg</strong></span>
-          <span>Gelecek Silobas: <strong id="d-silo-gelecek">0 kg</strong></span>
-        </div>
-      </div>
-
-      <div id="d-last-proj" style="display:none;"></div>
     </div>
 
-    <!-- ═══ 2. SEKME: PROJELER ═══ -->
+    <!-- ═══ 2. PROJELER ═══ -->
     <div class="panel" id="tab-projects">
       <div class="stitle">Projelerim</div>
       <div class="month-tabs" id="project-month-tabs">
@@ -628,7 +653,7 @@ input, select, textarea {
       <div id="project-list-panel"></div>
     </div>
 
-    <!-- ═══ 3. SEKME: VERİ GİRİŞ ═══ -->
+    <!-- ═══ 3. VERİ GİRİŞ ═══ -->
     <div class="panel" id="tab-daily">
       <div class="fg" style="margin-bottom:14px;">
         <label>Proje Seç</label>
@@ -678,10 +703,10 @@ input, select, textarea {
       </div>
     </div>
 
-    <!-- ═══ 4. SEKME: KAYITLAR ═══ -->
+    <!-- ═══ 4. KAYITLAR ═══ -->
     <div class="panel" id="tab-records">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div class="stitle" style="margin:0;">Kayıtlar</div>
+      <div class="stitle">
+        <span>Kayıtlar</span>
         <button class="btn btn-e" style="width:auto;padding:6px 14px;font-size:11px;" onclick="exportRecordsPDF()">↓ PDF Al</button>
       </div>
       <div class="month-tabs" id="record-month-tabs">
@@ -705,7 +730,7 @@ input, select, textarea {
       <div id="records-list"></div>
     </div>
 
-    <!-- ═══ 5. SEKME: BAKIM / DEĞİŞİM ═══ -->
+    <!-- ═══ 5. BAKIM / DEĞİŞİM ═══ -->
     <div class="panel" id="tab-degisim">
       <div class="stitle">🔌 Jeneratör Bakımı</div>
       <div class="bcard admin-only">
@@ -774,7 +799,7 @@ input, select, textarea {
 
   </div>
 
-  <!-- 5 SEKMELİ SABİT BOTTOM BAR -->
+  <!-- ─── BOTTOM NAVIGATION BAR ─── -->
   <nav class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('dashboard', this)">
       <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
@@ -800,13 +825,37 @@ input, select, textarea {
 
 </div>
 
-<!-- DETAY OVERLAY -->
+<!-- DETAY EKRANI (OVERLAY) -->
 <div id="detail-overlay" style="display:none;position:fixed;inset:0;background:var(--bg-scaffold);z-index:60;overflow-y:auto;padding:16px 14px 80px;">
   <button class="btn btn-s" onclick="closeDetail()" style="margin-bottom:14px;width:auto;">← Geri Dön</button>
   <div id="detail-content"></div>
 </div>
 
-<!-- ŞİFRE MODAL -->
+<!-- KAYIT DÜZENLEME MODAL -->
+<div class="modal-bg" id="editRecordModal" onclick="if(event.target===this)closeEditRecord()">
+  <div class="modal">
+    <div class="modal-title">
+      <span>✏️ Kaydı Düzenle</span>
+      <button class="modal-close" onclick="closeEditRecord()">✕</button>
+    </div>
+    <div class="fg">
+      <label>Proje</label>
+      <select id="er-project"></select>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Kuyu Sayısı</label><input type="number" id="er-wells" inputmode="numeric"></div>
+      <div class="fg"><label>Kuyu Tarihi</label><input type="date" id="er-wells-date"></div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label>Çimento (kg)</label><input type="number" id="er-silo" inputmode="numeric"></div>
+      <div class="fg"><label>Çimento Tarihi</label><input type="date" id="er-silo-date"></div>
+    </div>
+    <input type="hidden" id="er-id">
+    <button class="btn btn-p" onclick="saveEditRecord()" style="margin-top:10px;width:100%;">✓ Güncelle</button>
+  </div>
+</div>
+
+<!-- GİRİŞ ŞİFRE MODAL -->
 <div id="authModal" class="modal-bg" onclick="if(event.target===this)closeAuthModal()">
   <div class="modal">
     <div class="modal-title">
@@ -824,7 +873,7 @@ input, select, textarea {
 <div id="notif" style="display:none;" class="notif"></div>
 
 <script>
-// ─── VERİTABANI VE DEĞİŞKENLER ──────────────────────────────────
+// ─── VERİTABANI VE AYARLAR ─────────────────────────────────────
 var firebaseConfig = {
   apiKey: "AIzaSyCmJQUQj0eStf-Y-AlFcBrD6J_5Lf5Y6f0",
   authDomain: "dsm-aydin.firebaseapp.com",
@@ -835,14 +884,14 @@ var firebaseConfig = {
   appId: "1:828032083585:web:8a65d92d843e43c5efcf80"
 };
 
-var fbReady = false;
-var lastFbData = null;
+var fbReady = false, lastFbData = null;
 
 var projects = JSON.parse(localStorage.getItem('dsm_projects')||'[]');
 var dailyRecords = JSON.parse(localStorage.getItem('dsm_records')||'[]');
 var degisimRecords = JSON.parse(localStorage.getItem('dsm_degisim')||'[]');
 var maintSettings = JSON.parse(localStorage.getItem('dsm_maint')||'{"current":0,"last":0,"interval":200}');
 var santralSettings = JSON.parse(localStorage.getItem('dsm_santral')||'{"current":0,"last":0,"interval":200}');
+var photos = JSON.parse(localStorage.getItem('dsm_photos')||'{}');
 
 var ADMIN_PASS = '8096';
 var isAdmin = localStorage.getItem('dsm_admin') === '1';
@@ -916,6 +965,7 @@ function save() {
   localStorage.setItem('dsm_degisim', JSON.stringify(degisimRecords));
   localStorage.setItem('dsm_maint', JSON.stringify(maintSettings));
   localStorage.setItem('dsm_santral', JSON.stringify(santralSettings));
+  localStorage.setItem('dsm_photos', JSON.stringify(photos));
   fbSave();
 }
 
@@ -959,48 +1009,159 @@ function getCompletedWells(pid) {
   return dailyRecords.filter(r => r.projectId === pid).reduce((s, r) => s + (r.wells || 0), 0);
 }
 
-// ─── DASHBOARD RENDER ──────────────────────────────────────────
+// ─── DASHBOARD & SVG SİLO TELEMETRİSİ ───
 function renderDashboard() {
-  var totalComp = projects.reduce((s, p) => s + getCompletedWells(p.id), 0);
-  document.getElementById('d-comp').textContent = totalComp.toLocaleString('tr-TR');
+  var comp = projects.reduce((s, p) => s + getCompletedWells(p.id), 0);
+  document.getElementById('d-comp').textContent = comp.toLocaleString('tr-TR');
   document.getElementById('d-cnt').textContent = projects.length;
 
   var last = projects[projects.length - 1];
+  var dLast = document.getElementById('d-last-proj');
+
   if(last) {
     var lcomp = getCompletedWells(last.id);
     var lrem = Math.max(0, last.wellCount - lcomp);
+    var lpct = Math.min(100, Math.round((lcomp / last.wellCount) * 100));
     var elapsed = Math.max(0, Math.floor((new Date() - new Date(last.date)) / 86400000));
 
-    document.getElementById('kpi-proje-kuyu').textContent = last.wellCount;
-    document.getElementById('kpi-yapilan-kuyu').textContent = lcomp;
-    document.getElementById('kpi-kalan-kuyu').textContent = lrem;
-    document.getElementById('kpi-gecen-sure').textContent = elapsed;
-
-    // Silo Bilgileri
-    document.getElementById('d-last-proj-title').textContent = last.company;
-    var projRecs = dailyRecords.filter(r => r.projectId === last.id);
-    var siloGiren = projRecs.reduce((s, r) => s + (parseFloat(r.siloCement) || 0), 0);
-    var lastSilo = 0;
-    var siloRecs = projRecs.filter(r => parseFloat(r.siloCement) > 0);
-    if(siloRecs.length > 0) lastSilo = parseFloat(siloRecs[siloRecs.length - 1].siloCement);
-
     var ltotalCement = last.totalCement || ((last.cementPerWell || 0) * (last.wellCount || 0));
-    var lusedCalc = lcomp * (parseFloat(last.cementPerWell) || 0);
-    var siloKalan = Math.max(0, siloGiren - lusedCalc);
-    var remCement = Math.max(0, ltotalCement - siloGiren);
-    var pct = siloGiren > 0 ? Math.min(100, Math.round((siloKalan / siloGiren) * 100)) : 0;
+    var lusedCementCalc = lcomp * (parseFloat(last.cementPerWell) || 0);
 
-    document.getElementById('d-silo-doluluk').textContent = '%' + pct + ' Doluluk';
-    document.getElementById('d-silo-kalan').textContent = siloKalan.toLocaleString('tr-TR') + ' kg';
-    document.getElementById('d-silo-son').textContent = lastSilo.toLocaleString('tr-TR') + ' kg';
-    document.getElementById('d-silo-proje').textContent = ltotalCement.toLocaleString('tr-TR') + ' kg';
-    document.getElementById('d-silo-gelecek').textContent = remCement.toLocaleString('tr-TR') + ' kg';
+    var projRecs = dailyRecords.filter(r => r.projectId === last.id);
+    var lsiloGiren = projRecs.reduce((s, r) => s + (parseFloat(r.siloCement) || 0), 0);
+    var lastSiloEntry = 0;
+    var siloRecs = projRecs.filter(r => parseFloat(r.siloCement) > 0);
+    if(siloRecs.length > 0) lastSiloEntry = parseFloat(siloRecs[siloRecs.length - 1].siloCement);
+
+    var lremCement = ltotalCement - lsiloGiren;
+    var lremCementAbs = Math.abs(lremCement || 0);
+    var lsiloKalan = lsiloGiren - lusedCementCalc;
+    var lsiloKalanAbs = Math.abs(lsiloKalan || 0);
+
+    var compPct = last.wellCount ? Math.min(1, lcomp / last.wellCount) : 0;
+    var remPct  = last.wellCount ? Math.min(1, lrem / last.wellCount) : 0;
+
+    // SVG SİLO DEĞERLERİ
+    var siloFill = lsiloGiren > 0 ? Math.max(0, Math.min(1, lsiloKalan / lsiloGiren)) : 0;
+    var fc = siloFill > 0.55 ? '#00D2FF' : siloFill > 0.25 ? '#10B981' : siloFill > 0.1 ? '#F59E0B' : '#EF4444';
+    var fcL = siloFill > 0.55 ? '#67E8F9' : siloFill > 0.25 ? '#34D399' : siloFill > 0.1 ? '#FBBF24' : '#F87171';
+    var pct = lsiloGiren > 0 ? Math.round(siloFill * 100) : 0;
+
+    var W = 300, H = 450;
+    var cx = 135;
+    var bodyW = 160;
+    var bx = cx - bodyW / 2;
+    var domeH = 38, domeY = 24;
+    var bodyTop = domeY + domeH;
+    var bodyH = 260;
+    var coneH = 65, pipeW = 32, pipeH = 32;
+    var pipeX = cx - pipeW / 2;
+    var pipeY = bodyTop + bodyH + coneH;
+
+    var fillH = Math.round(siloFill * bodyH);
+    var fillY = bodyTop + bodyH - fillH;
+
+    var innerRows = [
+      { label: '🚛 Son Silobas', val: lastSiloEntry.toLocaleString('tr-TR') + ' kg', color: '#FFFFFF' },
+      { label: '🕳️ Harcanan',   val: lusedCementCalc.toLocaleString('tr-TR') + ' kg', color: 'rgba(255,255,255,0.85)' },
+      { label: '🏭 Siloda Kalan', val: lsiloKalanAbs.toLocaleString('tr-TR') + ' kg', color: lsiloKalan < 0 ? '#EF4444' : '#10B981' }
+    ];
+
+    var rowH = 50;
+    var panelH = innerRows.length * rowH + 12;
+    var panelW = bodyW - 20;
+    var panelX = bx + 10;
+    var panelY = bodyTop + (bodyH - panelH) / 2;
+
+    var siloSvg =
+      '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" style="display:block;">'+
+      '<defs>'+
+        '<linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="'+fcL+'" stop-opacity="0.9"/><stop offset="100%" stop-color="'+fc+'" stop-opacity="1"/></linearGradient>'+
+        '<linearGradient id="bg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#141926"/><stop offset="50%" stop-color="#1C2234"/><stop offset="100%" stop-color="#0E131E"/></linearGradient>'+
+        '<clipPath id="bc"><polygon points="'+bx+','+bodyTop+' '+(bx+bodyW)+','+bodyTop+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(pipeY+pipeH)+' '+(cx-pipeW/2)+','+(pipeY+pipeH)+' '+bx+','+(bodyTop+bodyH)+'"/></clipPath>'+
+      '</defs>'+
+      // DOME
+      '<ellipse cx="'+cx+'" cy="'+(domeY+domeH)+'" rx="'+(bodyW/2)+'" ry="'+domeH+'" fill="url(#bg)" stroke="var(--border-card)" stroke-width="2"/>'+
+      // CYLINDER
+      '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="url(#bg)" stroke="var(--border-card)" stroke-width="2"/>'+
+      // FILL
+      (fillH > 0 ? '<g clip-path="url(#bc)"><rect x="'+bx+'" y="'+fillY+'" width="'+bodyW+'" height="'+(bodyH+coneH+pipeH)+'" fill="url(#cg)"/><path d="M'+bx+','+fillY+' Q'+(bx+bodyW/2)+','+(fillY-8)+' '+(bx+bodyW)+','+fillY+'" fill="none" stroke="'+fcL+'" stroke-width="3"/></g>' : '')+
+      // BORDER
+      '<rect x="'+bx+'" y="'+bodyTop+'" width="'+bodyW+'" height="'+bodyH+'" fill="none" stroke="var(--border-card)" stroke-width="2"/>'+
+      // LEVEL MARKERS
+      [0, 0.25, 0.5, 0.75, 1].map(p => {
+        var ly = bodyTop + bodyH - Math.round(p * bodyH);
+        return '<line x1="'+(bx+bodyW)+'" y1="'+ly+'" x2="'+(bx+bodyW+14)+'" y2="'+ly+'" stroke="var(--border-card)" stroke-width="1.5"/><text x="'+(bx+bodyW+18)+'" y="'+(ly+4)+'" font-size="9" fill="var(--text-muted)" font-weight="600">'+(Math.round(p*100))+'%</text>';
+      }).join('')+
+      // HOPPER & PIPE
+      '<polygon points="'+bx+','+(bodyTop+bodyH)+' '+(bx+bodyW)+','+(bodyTop+bodyH)+' '+(cx+pipeW/2)+','+(bodyTop+bodyH+coneH)+' '+(cx-pipeW/2)+','+(bodyTop+bodyH+coneH)+'" fill="url(#bg)" stroke="var(--border-card)" stroke-width="2"/>'+
+      '<rect x="'+pipeX+'" y="'+pipeY+'" width="'+pipeW+'" height="'+pipeH+'" fill="url(#bg)" stroke="var(--border-card)" stroke-width="1.5"/>'+
+      // 3 DATA ROWS (PANEL)
+      '<rect x="'+panelX+'" y="'+panelY+'" width="'+panelW+'" height="'+panelH+'" rx="8" fill="rgba(14, 19, 30, 0.85)" stroke="var(--border-card)" stroke-width="1.2"/>'+
+      innerRows.map((r, i) => {
+        var ry = panelY + 6 + i * rowH;
+        return (i > 0 ? '<line x1="'+(panelX+8)+'" y1="'+ry+'" x2="'+(panelX+panelW-8)+'" y2="'+ry+'" stroke="var(--border-card)"/>' : '') +
+          '<text x="'+(panelX+10)+'" y="'+(ry+16)+'" font-size="9" fill="var(--text-muted)" font-weight="600">'+r.label+'</text>' +
+          '<text x="'+(panelX+10)+'" y="'+(ry+36)+'" font-size="14" font-weight="800" fill="'+r.color+'">'+r.val+'</text>';
+      }).join('')+
+      '</svg>';
+
+    dLast.innerHTML =
+      '<div class="pcard">' +
+        '<div class="pcname">' + last.company + '</div>' +
+        '<div class="greet-stats">' +
+          '<div class="greet-stat-ring">' +
+            '<div class="circ-wrap">' +
+              '<svg width="64" height="64" viewBox="0 0 64 64"><circle fill="none" stroke="var(--border-card)" stroke-width="7" cx="32" cy="32" r="26"/><circle class="c-fill" fill="none" stroke="var(--primary-cyan)" stroke-width="7" stroke-linecap="round" cx="32" cy="32" r="26" stroke-dasharray="163.3" stroke-dashoffset="0"/></svg>' +
+              '<div class="cv-text">' + last.wellCount + '</div>' +
+            '</div>' +
+            '<div class="gs-label">PROJE<br>KUYU SAYISI</div>' +
+          '</div>' +
+          '<div class="greet-stat-ring">' +
+            '<div class="circ-wrap">' +
+              '<svg width="64" height="64" viewBox="0 0 64 64"><circle fill="none" stroke="var(--border-card)" stroke-width="7" cx="32" cy="32" r="26"/><circle class="c-fill" fill="none" stroke="var(--success-green)" stroke-width="7" stroke-linecap="round" cx="32" cy="32" r="26" stroke-dasharray="163.3" stroke-dashoffset="' + (163.3 - compPct * 163.3).toFixed(1) + '"/></svg>' +
+              '<div class="cv-text">' + lcomp + '</div>' +
+            '</div>' +
+            '<div class="gs-label">Yapılan<br>Kuyu</div>' +
+          '</div>' +
+          '<div class="greet-stat-ring">' +
+            '<div class="circ-wrap">' +
+              '<svg width="64" height="64" viewBox="0 0 64 64"><circle fill="none" stroke="var(--border-card)" stroke-width="7" cx="32" cy="32" r="26"/><circle class="c-fill" fill="none" stroke="var(--warning-orange)" stroke-width="7" stroke-linecap="round" cx="32" cy="32" r="26" stroke-dasharray="163.3" stroke-dashoffset="' + (163.3 - remPct * 163.3).toFixed(1) + '"/></svg>' +
+              '<div class="cv-text">' + lrem + '</div>' +
+            '</div>' +
+            '<div class="gs-label">Kalan<br>Kuyu</div>' +
+          '</div>' +
+          '<div class="greet-stat-ring">' +
+            '<div class="circ-wrap">' +
+              '<svg width="64" height="64" viewBox="0 0 64 64"><circle fill="none" stroke="var(--border-card)" stroke-width="7" cx="32" cy="32" r="26"/><circle class="c-fill" fill="none" stroke="var(--passive-color)" stroke-width="7" stroke-linecap="round" cx="32" cy="32" r="26" stroke-dasharray="163.3" stroke-dashoffset="0"/></svg>' +
+              '<div class="cv-text">' + elapsed + '</div>' +
+            '</div>' +
+            '<div class="gs-label">Geçen Süre<br>(Gün)</div>' +
+          '</div>' +
+        '</div>' +
+
+        // SİLO ÇİZİMİ & KARTLARI
+        '<div style="background:var(--input-secondary);border:1px solid var(--border-card);border-radius:14px;overflow:hidden;margin-top:10px;">' +
+          '<div style="padding:12px 14px;border-bottom:1px solid var(--border-card);display:flex;justify-content:space-between;align-items:center;">' +
+            '<div><div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;">ÇİMENTO SİLO DURUMU</div><div style="font-size:13px;font-weight:800;color:#fff;">' + last.company + '</div></div>' +
+            '<div style="text-align:right;"><span style="font-size:16px;font-weight:900;color:' + fc + ';">%' + pct + '</span><div style="font-size:10px;color:var(--text-muted);">Doluluk (' + siloRecs.length + ' Silobas)</div></div>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:center;padding:10px 0;">' + siloSvg + '</div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border-card);">' +
+            '<div style="padding:10px 14px;border-right:1px solid var(--border-card);"><div style="font-size:10px;color:var(--text-muted);">Proje Çimento</div><div style="font-size:13px;font-weight:800;color:#fff;">' + ltotalCement.toLocaleString('tr-TR') + ' kg</div></div>' +
+            '<div style="padding:10px 14px;"><div style="font-size:10px;color:var(--text-muted);">Gelecek Silobas</div><div style="font-size:13px;font-weight:800;color:' + (lremCement < 0 ? 'var(--error-red)' : '#fff') + ';">' + lremCementAbs.toLocaleString('tr-TR') + ' kg</div></div>' +
+          '</div>' +
+        '</div>' +
+        '<button class="btn btn-s" style="margin-top:10px;width:100%;" onclick="showDetail(' + last.id + ')">Detayları Gör →</button>' +
+      '</div>';
   } else {
-    document.getElementById('d-last-proj-title').textContent = 'Proje Yok';
+    dLast.innerHTML = '<div class="empty">Henüz proje eklenmedi.</div>';
   }
+
+  renderBarChart();
 }
 
-// ─── BAKIM METRİKLERİ ──────────────────────────────────────────
+// ─── BAKIM HESAPLARI VE ALARMLAR ───
 function addManualHours(d) {
   maintSettings.current = Math.max(0, Math.round((parseFloat(maintSettings.current)||0) + d));
   document.getElementById('maint-current').value = maintSettings.current;
@@ -1018,11 +1179,20 @@ function updateMaintStatus() {
   var cur = maintSettings.current || 0, last = maintSettings.last || 0, intv = maintSettings.interval || 200;
   var nextAt = last + intv, rem = nextAt - cur;
   var pnl = document.getElementById('maint-alert-panel');
+  var ro = document.getElementById('maint-status-readonly');
+  var st = document.getElementById('maint-status');
+
   if(rem <= 0) {
     pnl.innerHTML = '<div class="alarm-card"><div class="alarm-left"><div class="pulse-dot"></div><div class="alarm-text">Jeneratör Bakımı Geçti! ('+Math.abs(rem)+' saat gecikme)</div></div><button class="alarm-btn" onclick="switchTab(\'degisim\')">Git →</button></div>';
+    if(st) st.innerHTML = '<span style="color:var(--error-red);">⚠ Bakım zamanı geçti! '+Math.abs(rem)+'h gecikme</span>';
+  } else if(rem <= 50) {
+    pnl.innerHTML = '<div class="alarm-card orange"><div class="alarm-left"><div class="pulse-dot"></div><div class="alarm-text">Jeneratör Bakımı Yaklaşıyor ('+rem+' saat kaldı)</div></div><button class="alarm-btn" onclick="switchTab(\'degisim\')">Git →</button></div>';
+    if(st) st.innerHTML = '<span style="color:var(--warning-orange);">⚠ Bakım yaklaşıyor: '+rem+'h kaldı</span>';
   } else {
     pnl.innerHTML = '';
+    if(st) st.innerHTML = '<span style="color:var(--success-green);">✓ Normal — '+rem+'h kaldı</span>';
   }
+  if(ro) ro.innerHTML = 'Mevcut: <b>'+cur+'h</b> &nbsp;·&nbsp; Son Bakım: <b>'+last+'h</b> &nbsp;·&nbsp; Sonraki: <b>'+nextAt+'h</b>';
 }
 
 function addSantralHours(d) {
@@ -1042,14 +1212,23 @@ function updateSantralStatus() {
   var cur = santralSettings.current || 0, last = santralSettings.last || 0, intv = santralSettings.interval || 200;
   var nextAt = last + intv, rem = nextAt - cur;
   var pnl = document.getElementById('santral-alert-panel');
+  var ro = document.getElementById('santral-status-readonly');
+  var st = document.getElementById('santral-status');
+
   if(rem <= 0) {
     pnl.innerHTML = '<div class="alarm-card"><div class="alarm-left"><div class="pulse-dot"></div><div class="alarm-text">Santral Bakımı Geçti! ('+Math.abs(rem)+' saat gecikme)</div></div><button class="alarm-btn" onclick="switchTab(\'degisim\')">Git →</button></div>';
+    if(st) st.innerHTML = '<span style="color:var(--error-red);">⚠ Bakım zamanı geçti! '+Math.abs(rem)+'h gecikme</span>';
+  } else if(rem <= 10) {
+    pnl.innerHTML = '<div class="alarm-card orange"><div class="alarm-left"><div class="pulse-dot"></div><div class="alarm-text">Santral Bakımı Yaklaşıyor ('+rem+' saat kaldı)</div></div><button class="alarm-btn" onclick="switchTab(\'degisim\')">Git →</button></div>';
+    if(st) st.innerHTML = '<span style="color:var(--warning-orange);">⚠ Bakım yaklaşıyor: '+rem+'h kaldı</span>';
   } else {
     pnl.innerHTML = '';
+    if(st) st.innerHTML = '<span style="color:var(--success-green);">✓ Normal — '+rem+'h kaldı</span>';
   }
+  if(ro) ro.innerHTML = 'Mevcut: <b>'+cur+'h</b> &nbsp;·&nbsp; Son Bakım: <b>'+last+'h</b> &nbsp;·&nbsp; Sonraki: <b>'+nextAt+'h</b>';
 }
 
-// ─── PROJE VE KAYIT İŞLEMLERİ ─────────────────────────────────
+// ─── PROJE VE KAYIT FORMLARI ───
 function calcElapsed() {
   var v = document.getElementById('p-date').value;
   if(!v) return;
@@ -1097,19 +1276,81 @@ function clearDailyForm() {
   document.getElementById('d-silo').value = '';
 }
 
-// ─── LİSTE VE RENDER METODLARI ────────────────────────────────
+// ─── PROJE VE KAYIT LİSTELEME ───
 var currentProjectsMonth = new Date().getMonth();
 function setProjectsMonth(m) { currentProjectsMonth = m; renderProjectList(); }
+
+var projSortAsc = false;
+function toggleProjSort() {
+  projSortAsc = !projSortAsc;
+  document.getElementById('proj-sort-btn').textContent = projSortAsc ? '↑ Eskiden Yeniye' : '↓ Yeniden Eskiye';
+  renderProjectList();
+}
 
 function renderProjectList() {
   var el = document.getElementById('project-list-panel');
   if(!projects.length) { el.innerHTML = '<div class="empty">Henüz proje eklenmedi.</div>'; return; }
-  var list = projects.filter(p => new Date(p.date).getMonth() === currentProjectsMonth);
-  if(!list.length) { el.innerHTML = '<div class="empty">Bu ayda kayıtlı proje yok.</div>'; return; }
+
+  document.querySelectorAll('#project-month-tabs .mtab').forEach((t, i) => {
+    t.classList.toggle('active', i === currentProjectsMonth);
+  });
+
+  var q = (document.getElementById('proj-search')||{value:''}).value.toLowerCase().trim();
+  var list = projects.slice().sort((a,b) => projSortAsc ? new Date(a.date)-new Date(b.date) : new Date(b.date)-new Date(a.date));
+
+  if(q) {
+    list = list.filter(p => p.company.toLowerCase().includes(q));
+  } else {
+    list = list.filter(p => p.date && new Date(p.date).getMonth() === currentProjectsMonth);
+  }
+
+  if(!list.length) { el.innerHTML = '<div class="empty">'+(q?'Arama sonucu bulunamadı.':'Bu ayda proje bulunmuyor.')+'</div>'; return; }
+
   el.innerHTML = list.map(p => {
-    var comp = getCompletedWells(p.id);
-    return '<div class="pcard"><div class="rheader"><div class="rproj">'+p.company+'</div><div>'+comp+'/'+p.wellCount+' Kuyu</div></div><div class="brow"><button class="btn btn-p" onclick="showDetail('+p.id+')">Detay</button></div></div>';
+    var comp = getCompletedWells(p.id), rem = Math.max(0, p.wellCount - comp);
+    var pct = Math.min(100, Math.round((comp / p.wellCount) * 100));
+    var elapsed = Math.max(0, Math.floor((new Date() - new Date(p.date)) / 86400000));
+    var pUsed = dailyRecords.filter(r => r.projectId === p.id).reduce((s, r) => s + (r.siloCement || 0), 0);
+    var pTotal = p.totalCement || ((p.cementPerWell || 0) * (p.wellCount || 0));
+    var siloCount = dailyRecords.filter(r => r.projectId === p.id && (parseFloat(r.siloCement)||0) > 0).length;
+
+    var r = 20, c = 2 * Math.PI * r;
+    var offset = c - (pct / 100) * c;
+    var col = pct >= 100 ? 'var(--success-green)' : pct >= 50 ? 'var(--primary-cyan)' : 'var(--warning-orange)';
+
+    return '<div class="pcard">' +
+      '<div class="pcname">' + p.company + '</div>' +
+      '<div class="mgrid">' +
+        '<div class="mi"><span class="ml">Tarih</span><span class="mv">' + fmtDate(p.date) + '</span></div>' +
+        '<div class="mi"><span class="ml">Geçen Süre</span><span class="mv o">' + elapsed + ' gün</span></div>' +
+        '<div class="mi"><span class="ml">Toplam Kuyu</span><span class="mv">' + p.wellCount + '</span></div>' +
+        '<div class="mi"><span class="ml">Yapılan Kuyu</span><span class="mv g">' + comp + '</span></div>' +
+        '<div class="mi"><span class="ml">Kalan Kuyu</span><span class="mv r">' + rem + '</span></div>' +
+        '<div class="mi"><span class="ml">Proje Çimentosu</span><span class="mv">' + pTotal.toLocaleString('tr-TR') + ' kg</span></div>' +
+        '<div class="mi"><span class="ml">Gelen Çimento</span><span class="mv">' + pUsed.toLocaleString('tr-TR') + ' kg (' + siloCount + ' Silobas)</span></div>' +
+      '</div>' +
+      '<div class="circ-prog-wrap">' +
+        '<div class="circ-prog">' +
+          '<svg width="48" height="48" viewBox="0 0 48 48"><circle class="circ-prog-track" cx="24" cy="24" r="' + r + '"/><circle class="circ-prog-fill" cx="24" cy="24" r="' + r + '" stroke="' + col + '" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + offset.toFixed(1) + '"/></svg>' +
+          '<div class="circ-prog-label">%' + pct + '</div>' +
+        '</div>' +
+        '<div><div class="cp-pct">%' + pct + ' tamamlandı</div><div class="cp-sub">' + comp + ' / ' + p.wellCount + ' kuyu</div></div>' +
+      '</div>' +
+      '<div class="brow">' +
+        '<button class="btn btn-p" onclick="showDetail(' + p.id + ')">📋 Detay</button>' +
+        '<button class="btn btn-s" onclick="exportProjectPDF(' + p.id + ')">↓ PDF</button>' +
+        (isAdmin ? '<button class="btn btn-d" onclick="deleteProject(' + p.id + ')">Sil</button>' : '') +
+      '</div>' +
+    '</div>';
   }).join('');
+}
+
+function deleteProject(id) {
+  if(confirm('Projeyi silmek istediğinize emin misiniz?')) {
+    projects = projects.filter(p => p.id !== id);
+    dailyRecords = dailyRecords.filter(r => r.projectId !== id);
+    save(); refreshAll(); notify('Proje silindi.');
+  }
 }
 
 var currentRecordsMonth = new Date().getMonth();
@@ -1119,15 +1360,74 @@ function renderRecords() {
   var el = document.getElementById('records-list');
   var fval = document.getElementById('filter-project').value;
   var recs = fval ? dailyRecords.filter(r => r.projectId === parseInt(fval)) : dailyRecords;
+
+  document.querySelectorAll('#record-month-tabs .mtab').forEach((t, i) => {
+    t.classList.toggle('active', i === currentRecordsMonth);
+  });
+
   recs = recs.filter(r => {
     var d = r.wellsDate || r.siloDate;
     return d && new Date(d).getMonth() === currentRecordsMonth;
-  });
+  }).sort((a,b) => (b.wellsDate||b.siloDate||'').localeCompare(a.wellsDate||a.siloDate||''));
+
   if(!recs.length) { el.innerHTML = '<div class="empty">Kayıt bulunmuyor.</div>'; return; }
+
   el.innerHTML = recs.map(r => {
     var p = projects.find(x => x.id === r.projectId);
-    return '<div class="rcard"><div class="rheader"><div class="rproj">'+(p?p.company:'Silinmiş')+'</div></div><div class="rstats">'+(r.wells?'<div class="rstat"><span class="rsl">Kuyu</span><span class="rsv g">'+r.wells+' adet</span></div>':'')+(r.siloCement?'<div class="rstat"><span class="rsl">Silobas</span><span class="rsv o">'+r.siloCement+' kg</span></div>':'')+'</div></div>';
+    return '<div class="rcard">' +
+      '<div class="rheader">' +
+        '<div class="rproj">' + (p ? p.company : 'Silinmiş Proje') + '</div>' +
+        (isAdmin ? '<div style="display:flex;gap:4px;"><button class="hbtn" onclick="editRecord(' + r.id + ')">Düzenle</button><button class="hbtn" style="color:var(--error-red);" onclick="deleteRecord(' + r.id + ')">Sil</button></div>' : '') +
+      '</div>' +
+      '<div class="rstats">' +
+        (r.wells ? '<div class="rstat"><span class="rsl">Kuyu</span><span class="rsv g">' + r.wells + ' adet</span></div>' : '') +
+        (r.wellsDate ? '<div class="rstat"><span class="rsl">Kuyu Tarihi</span><span class="rsv">' + fmtDate(r.wellsDate) + '</span></div>' : '') +
+        (r.siloCement ? '<div class="rstat"><span class="rsl">Silobas</span><span class="rsv o">' + r.siloCement.toLocaleString('tr-TR') + ' kg</span></div>' : '') +
+        (r.siloDate ? '<div class="rstat"><span class="rsl">Çim. Tarihi</span><span class="rsv">' + fmtDate(r.siloDate) + '</span></div>' : '') +
+      '</div>' +
+    '</div>';
   }).join('');
+}
+
+function deleteRecord(id) {
+  if(confirm('Kaydı silmek istediğinize emin misiniz?')) {
+    dailyRecords = dailyRecords.filter(r => r.id !== id);
+    save(); refreshAll(); notify('Kayıt silindi.');
+  }
+}
+
+function editRecord(id) {
+  var r = dailyRecords.find(x => x.id === id);
+  if(!r) return;
+  var sel = document.getElementById('er-project');
+  sel.innerHTML = '';
+  projects.forEach(p => {
+    var o = document.createElement('option');
+    o.value = p.id;
+    o.textContent = p.company;
+    sel.appendChild(o);
+  });
+  sel.value = r.projectId;
+  document.getElementById('er-wells').value = r.wells || '';
+  document.getElementById('er-wells-date').value = r.wellsDate || '';
+  document.getElementById('er-silo').value = r.siloCement || '';
+  document.getElementById('er-silo-date').value = r.siloDate || '';
+  document.getElementById('er-id').value = r.id;
+  document.getElementById('editRecordModal').classList.add('open');
+}
+function closeEditRecord() {
+  document.getElementById('editRecordModal').classList.remove('open');
+}
+function saveEditRecord() {
+  var id = parseInt(document.getElementById('er-id').value);
+  var idx = dailyRecords.findIndex(r => r.id === id);
+  if(idx === -1) return;
+  dailyRecords[idx].projectId = parseInt(document.getElementById('er-project').value);
+  dailyRecords[idx].wells = parseFloat(document.getElementById('er-wells').value) || 0;
+  dailyRecords[idx].wellsDate = document.getElementById('er-wells-date').value || null;
+  dailyRecords[idx].siloCement = parseFloat(document.getElementById('er-silo').value) || 0;
+  dailyRecords[idx].siloDate = document.getElementById('er-silo-date').value || null;
+  save(); refreshAll(); closeEditRecord(); notify('Kayıt güncellendi!');
 }
 
 function populateDropdowns() {
@@ -1144,7 +1444,7 @@ function populateDropdowns() {
   });
 }
 
-// ─── DEĞİŞİM METODLARI ────────────────────────────────────────
+// ─── DEĞİŞİM TAKİBİ ───
 function getWellsUpToDate(dStr) {
   var d = new Date(dStr);
   return dailyRecords.reduce((s, r) => (r.wellsDate && new Date(r.wellsDate) <= d) ? s + (r.wells||0) : s, 0);
@@ -1158,7 +1458,7 @@ function addDegisim(type) {
   var kece = document.getElementById(type + '-kece').value;
   if(!date) { notify('Tarih seçin!'); return; }
   degisimRecords.push({ id: Date.now(), type, date, kece, kuyu: getWellsUpToDate(date) });
-  save(); renderDegisim(type); notify('Değişim eklendi!');
+  save(); renderDegisim(type); clearDegisimForm(type); notify('Değişim eklendi!');
 }
 function clearDegisimForm(type) {
   document.getElementById(type + '-date').value = '';
@@ -1169,22 +1469,98 @@ function renderDegisim(type) {
   var el = document.getElementById(type + '-list');
   var list = degisimRecords.filter(r => r.type === type);
   if(!list.length) { el.innerHTML = '<div class="empty">Kayıt yok.</div>'; return; }
-  el.innerHTML = list.map(r => '<div class="rcard"><div class="rheader"><div class="rproj">'+fmtDate(r.date)+'</div><div>'+r.kuyu+' kuyu</div></div><div>'+(r.kece||'')+'</div></div>').join('');
+  el.innerHTML = list.map(r => '<div class="rcard"><div class="rheader"><div class="rproj">' + fmtDate(r.date) + '</div><div class="mv g">' + r.kuyu + ' kuyu</div></div><div>' + (r.kece || 'Keçe türü girilmedi') + '</div></div>').join('');
 }
 
-// ─── PROJE DETAY OVERLAY ──────────────────────────────────────
+// ─── PROJE DETAY OVERLAY VE FOTOĞRAF ───
 function showDetail(pid) {
   var p = projects.find(x => x.id === pid);
   if(!p) return;
   var comp = getCompletedWells(pid);
-  document.getElementById('detail-content').innerHTML = '<h2>'+p.company+'</h2><p>Hedef: '+p.wellCount+' | Yapılan: '+comp+'</p>';
+  var recs = dailyRecords.filter(r => r.projectId === pid);
+  var wRecs = recs.filter(r => r.wells);
+  var sRecs = recs.filter(r => r.siloCement);
+
+  document.getElementById('detail-content').innerHTML =
+    '<div class="pcname" style="font-size:18px;">' + p.company + '</div>' +
+    '<div class="mgrid">' +
+      '<div class="mi"><span class="ml">Başlangıç</span><span class="mv">' + fmtDate(p.date) + '</span></div>' +
+      '<div class="mi"><span class="ml">Toplam Kuyu</span><span class="mv">' + p.wellCount + '</span></div>' +
+      '<div class="mi"><span class="ml">Yapılan Kuyu</span><span class="mv g">' + comp + '</span></div>' +
+      '<div class="mi"><span class="ml">Kuyu Başı Çimento</span><span class="mv">' + p.cementPerWell + ' kg</span></div>' +
+    '</div>' +
+    '<div class="stitle">Kuyu Kayıtları</div>' +
+    (wRecs.length ? wRecs.map(r => '<div class="rcard"><div class="rstats"><div class="rstat"><span class="rsl">Tarih</span><span class="rsv">' + fmtDate(r.wellsDate) + '</span></div><div class="rstat"><span class="rsl">Kuyu</span><span class="rsv g">' + r.wells + ' adet</span></div></div></div>').join('') : '<div class="empty">Kuyu kaydı yok</div>') +
+    '<div class="stitle">Silobas Kayıtları</div>' +
+    (sRecs.length ? sRecs.map(r => '<div class="rcard"><div class="rstats"><div class="rstat"><span class="rsl">Tarih</span><span class="rsv">' + fmtDate(r.siloDate) + '</span></div><div class="rstat"><span class="rsl">Miktar</span><span class="rsv o">' + r.siloCement.toLocaleString('tr-TR') + ' kg</span></div></div></div>').join('') : '<div class="empty">Silobas kaydı yok</div>');
+
   document.getElementById('detail-overlay').style.display = 'block';
 }
 function closeDetail() {
   document.getElementById('detail-overlay').style.display = 'none';
 }
 
-// ─── YÖNETİCİ ŞİFRE DOĞRULAMA ─────────────────────────────────
+// ─── ÇUBUK GRAFİK ───
+var barMode = 'daily';
+function setBarMode(mode, el) {
+  barMode = mode;
+  document.querySelectorAll('.bctab').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderBarChart();
+}
+function renderBarChart() {
+  var card = document.getElementById('barChartCard');
+  if(!card) return;
+  var worked = dailyRecords.filter(r => r.wellsDate && (r.wells||0) > 0);
+  if(!worked.length) { card.style.display = 'none'; return; }
+  card.style.display = 'block';
+
+  var dateMap = {};
+  worked.forEach(r => { dateMap[r.wellsDate] = (dateMap[r.wellsDate]||0) + (r.wells||0); });
+
+  var canvas = document.getElementById('barChart');
+  var days = Object.keys(dateMap).sort();
+  var data = days.map(d => dateMap[d]);
+
+  var avg = data.length ? Math.round(data.reduce((s,v)=>s+v,0)/data.length) : 0;
+  document.getElementById('bcAvg').textContent = avg;
+
+  var dpr = window.devicePixelRatio || 1;
+  var W = Math.max(300, days.length * 40);
+  canvas.style.width = W + 'px';
+  canvas.width = W * dpr;
+  canvas.height = 180 * dpr;
+
+  var ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, 180);
+
+  var maxV = Math.max(...data, 1);
+  var gap = (W - 40) / days.length;
+  var bw = Math.min(gap * 0.65, 24);
+
+  data.forEach((v, i) => {
+    var x = 20 + i * gap + (gap - bw)/2;
+    var bh = (v / maxV) * 120;
+    var y = 140 - bh;
+
+    ctx.fillStyle = '#00D2FF';
+    ctx.beginPath();
+    ctx.roundRect(x, y, bw, bh, 4);
+    ctx.fill();
+
+    ctx.fillStyle = '#fff';
+    ctx.font = '700 10px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(v, x + bw/2, y - 4);
+
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = '500 9px Inter';
+    ctx.fillText(days[i].split('-').slice(1).join('/'), x + bw/2, 155);
+  });
+}
+
+// ─── AUTH & ADMIN ───
 var tapTimer = null, tapCount = 0;
 function logoTap() {
   tapCount++;
@@ -1206,7 +1582,7 @@ function checkAuth() {
     localStorage.setItem('dsm_admin', isAdmin ? '1' : '0');
     applyAdminUI();
     closeAuthModal();
-    notify(isAdmin ? 'Yönetici Modu Açık' : 'Yönetici Modu Kapatıldı');
+    notify(isAdmin ? 'Yönetici Modu Açıldı' : 'Yönetici Modu Kapatıldı');
   } else {
     document.getElementById('authErr').textContent = 'Hatalı şifre!';
   }
@@ -1218,7 +1594,7 @@ function applyAdminUI() {
   });
 }
 
-// ─── YEDEKLEME VE PDF ─────────────────────────────────────────
+// ─── YEDEK & PDF MOTORU ───
 function exportData() {
   var data = { projects, dailyRecords, degisimRecords, maintSettings, santralSettings };
   var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -1235,20 +1611,39 @@ function importData(e) {
     try {
       var d = JSON.parse(evt.target.result);
       if(d.projects) projects = d.projects;
-      if(d.dailyRecords) dailyRecords = d.dailyRecords;
-      if(d.degisimRecords) degisimRecords = d.degisimRecords;
+      if(d.records) dailyRecords = d.records;
+      if(d.degisim) degisimRecords = d.degisim;
       save(); refreshAll(); notify('Yedek başarıyla yüklendi!');
     } catch(err) { notify('Dosya okunamadı!'); }
   };
   reader.readAsText(file);
 }
 
+function exportProjectPDF(id) {
+  var p = projects.find(x => x.id === id);
+  if(!p) return;
+  var doc = new window.jspdf.jsPDF();
+  doc.text('DSM Proje Raporu: ' + p.company, 14, 15);
+  doc.autoTable({
+    startY: 22,
+    head: [['Parametre', 'Deger']],
+    body: [
+      ['Firma Adi', p.company],
+      ['Tarih', fmtDate(p.date)],
+      ['Toplam Kuyu', String(p.wellCount)],
+      ['Yapilan Kuyu', String(getCompletedWells(id))],
+      ['Toplam Cimento', (p.totalCement || 0).toLocaleString('tr-TR') + ' kg']
+    ]
+  });
+  doc.save('DSM_' + p.company + '.pdf');
+}
+
 function exportRecordsPDF() {
   var doc = new window.jspdf.jsPDF();
-  doc.text('DSM Santiye Gunluk Kayit Raporu', 14, 15);
+  doc.text('DSM Gunluk Kayit Raporu', 14, 15);
   doc.autoTable({
-    startY: 20,
-    head: [['Proje', 'Kuyu', 'Tarih', 'Silobas', 'Tarih']],
+    startY: 22,
+    head: [['Proje', 'Kuyu', 'Kuyu Tarihi', 'Silobas (kg)', 'Silo Tarihi']],
     body: dailyRecords.map(r => {
       var p = projects.find(x => x.id === r.projectId);
       return [p ? p.company : 'Silinmis', r.wells || '-', r.wellsDate || '-', r.siloCement || '-', r.siloDate || '-'];
